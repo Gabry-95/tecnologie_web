@@ -5,22 +5,21 @@ import java.sql.SQLException;
 import java.util.Vector;
 import java.sql.Connection;
 import it.pale.tweb.dao.utils.DBManager;
-
-public class PersonalTDAO {
+public class Personale_amministrativoDAO {
 	private static Connection conn = null;
 
-	public PersonalT get(PersonalT personalT) {
-		String query = "SELECT * FROM PersonalT WHERE matricola=?";
+	public Personale_ammistrativo get(Personale_ammistrativo personaleA) {
+		String query = "SELECT * FROM PersonaleA WHERE matricola=?";
 
-		PersonalT res = null;
+		Personale_ammistrativo res = null;
 		PreparedStatement ps;
 		conn = DBManager.startConnection();
 		try {
 			ps = conn.prepareStatement(query);
-			ps.setInt(1, personalT.getMatricola());
+			ps.setInt(1, personaleA.getMatricola());
 			ResultSet rs = ps.executeQuery();
 			if (rs.next()) {
-				res = recordToPersonalT(rs);
+				res = recordToPersonaleA(rs);
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -29,29 +28,29 @@ public class PersonalTDAO {
 		return res;
 	}
 
-	private PersonalT recordToPersonalT(ResultSet rs) throws SQLException {
-		PersonalT personalT = new PersonalT();
-		personalT.setMatricola(rs.getInt("matricola"));
-		personalT.setNome(rs.getString("nome"));
-		personalT.setCognome(rs.getString("cognome"));
-		personalT.setTelefono(rs.getLong("telefono"));
+	private Personale_ammistrativo recordToPersonaleA(ResultSet rs) throws SQLException {
+		Personale_ammistrativo personaleA = new Personale_ammistrativo();
+		personaleA.setMatricola(rs.getInt("matricola"));
+		personaleA.setNome(rs.getString("nome"));
+		personaleA.setCognome(rs.getString("cognome"));
+		personaleA.setTelefono(rs.getLong("telefono"));
 
 
-		return personalT;
+		return personaleA;
 	}
 
-	public Vector<PersonalT> getAll() {
-		String query = "SELECT * FROM PersonalT order by matricola";
+	public Vector<Personale_ammistrativo> getAll() {
+		String query = "SELECT * FROM PersonaleA order by matricola";
 
-		Vector<PersonalT> res = new Vector<PersonalT>();
+		Vector<Personale_ammistrativo> res = new Vector<Personale_ammistrativo>();
 		PreparedStatement ps;
 		conn = DBManager.startConnection();
 		try {
 			ps = conn.prepareStatement(query);
 			ResultSet rs = ps.executeQuery();
 			while (rs.next()) {
-				PersonalT personalT = recordToPersonalT(rs);
-				res.add(personalT);
+				Personale_ammistrativo personaleA = recordToPersonaleA(rs);
+				res.add(personaleA);
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -60,8 +59,8 @@ public class PersonalTDAO {
 		return res;
 	}
 
-	public boolean salva(PersonalT personalT) {
-		String query = "INSERT INTO PersonalT VALUES ( ?, ?, ?, ?)";
+	public boolean salva(Personale_ammistrativo personaleA) {
+		String query = "INSERT INTO PersonaleA VALUES ( ?, ?, ?, ?)";
 		boolean esito = false;
 
 		PreparedStatement ps;
@@ -69,10 +68,10 @@ public class PersonalTDAO {
 		try {
 			ps = conn.prepareStatement(query);
 
-			ps.setInt(1, personalT.getMatricola());
-			ps.setString(2, personalT.getNome());
-			ps.setString(3, personalT.getCognome());
-			ps.setLong(4, personalT.getTelefono());
+			ps.setInt(1, personaleA.getMatricola());
+			ps.setString(2, personaleA.getNome());
+			ps.setString(3, personaleA.getCognome());
+			ps.setLong(4, personaleA.getTelefono());
 
 
 			int tmp = ps.executeUpdate();
@@ -85,15 +84,15 @@ public class PersonalTDAO {
 		return esito;
 	}
 
-	public boolean elimina(PersonalT personalT) {
-		String query = "DELETE FROM PersonalT WHERE matricola = ?";
+	public boolean elimina(Personale_ammistrativo personaleA) {
+		String query = "DELETE FROM PersonaleA WHERE matricola = ?";
 		boolean esito = false;
 
 		PreparedStatement ps;
 		conn = DBManager.startConnection();
 		try {
 			ps = conn.prepareStatement(query);
-			ps.setInt(1, personalT.getMatricola());
+			ps.setInt(1, personaleA.getMatricola());
 
 			int tmp = ps.executeUpdate();
 			if (tmp == 1)
@@ -107,8 +106,8 @@ public class PersonalTDAO {
 		return esito;
 	}
 
-	//	public boolean modifica(PersonalT PersonalT) {
-	//		String query = "UPDATE PersonalT SET nome=? WHERE id=?";
+	//	public boolean modifica(PersonaleA personaleA) {
+	//		String query = "UPDATE PersonaleA SET nome=? WHERE id=?";
 	//		boolean esito = false;
 	//
 	//		PreparedStatement ps;
@@ -116,8 +115,8 @@ public class PersonalTDAO {
 	//		try {
 	//			ps = conn.prepareStatement(query);
 	//
-	//			ps.setInt(1, PersonalT.getId());
-	//			ps.setLong(2, PersonalT.getTelefono());
+	//			ps.setInt(1, personaleA.getId());
+	//			ps.setLong(2, personaleA.getTelefono());
 	//		
 	//
 	//			int tmp = ps.executeUpdate();

@@ -1,25 +1,28 @@
 package it.pale.tweb.dao.beans;
+
+import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.Vector;
-import java.sql.Connection;
+
 import it.pale.tweb.dao.utils.DBManager;
-public class PersonaleADAO {
+
+public class Istruttore_corsoDAO {
 	private static Connection conn = null;
 
-	public PersonaleA get(PersonaleA personaleA) {
-		String query = "SELECT * FROM PersonaleA WHERE matricola=?";
+	public Istruttore_corso get(Istruttore_corso istruttoreC) {
+		String query = "SELECT * FROM IstruttoreC WHERE matricola=?";
 
-		PersonaleA res = null;
+		Istruttore_corso res = null;
 		PreparedStatement ps;
 		conn = DBManager.startConnection();
 		try {
 			ps = conn.prepareStatement(query);
-			ps.setInt(1, personaleA.getMatricola());
+			ps.setInt(1, istruttoreC.getMatricola());
 			ResultSet rs = ps.executeQuery();
 			if (rs.next()) {
-				res = recordToPersonaleA(rs);
+				res = recordToIstruttoreC(rs);
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -28,29 +31,29 @@ public class PersonaleADAO {
 		return res;
 	}
 
-	private PersonaleA recordToPersonaleA(ResultSet rs) throws SQLException {
-		PersonaleA personaleA = new PersonaleA();
-		personaleA.setMatricola(rs.getInt("matricola"));
-		personaleA.setNome(rs.getString("nome"));
-		personaleA.setCognome(rs.getString("cognome"));
-		personaleA.setTelefono(rs.getLong("telefono"));
+	private Istruttore_corso recordToIstruttoreC(ResultSet rs) throws SQLException {
+		Istruttore_corso istruttoreC = new Istruttore_corso();
+		istruttoreC.setMatricola(rs.getInt("matricola"));
+		istruttoreC.setNome(rs.getString("nome"));
+		istruttoreC.setCognome(rs.getString("cognome"));
+		istruttoreC.setTelefono(rs.getLong("telefono"));
 
 
-		return personaleA;
+		return istruttoreC;
 	}
 
-	public Vector<PersonaleA> getAll() {
-		String query = "SELECT * FROM PersonaleA order by matricola";
+	public Vector<Istruttore_corso> getAll() {
+		String query = "SELECT * FROM IstruttoreC order by matricola";
 
-		Vector<PersonaleA> res = new Vector<PersonaleA>();
+		Vector<Istruttore_corso> res = new Vector<Istruttore_corso>();
 		PreparedStatement ps;
 		conn = DBManager.startConnection();
 		try {
 			ps = conn.prepareStatement(query);
 			ResultSet rs = ps.executeQuery();
 			while (rs.next()) {
-				PersonaleA personaleA = recordToPersonaleA(rs);
-				res.add(personaleA);
+				Istruttore_corso istruttoreC = recordToIstruttoreC(rs);
+				res.add(istruttoreC);
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -59,8 +62,8 @@ public class PersonaleADAO {
 		return res;
 	}
 
-	public boolean salva(PersonaleA personaleA) {
-		String query = "INSERT INTO PersonaleA VALUES ( ?, ?, ?, ?)";
+	public boolean salva(Istruttore_corso istruttoreC) {
+		String query = "INSERT INTO IstruttoreC VALUES ( ?, ?, ?, ?)";
 		boolean esito = false;
 
 		PreparedStatement ps;
@@ -68,10 +71,10 @@ public class PersonaleADAO {
 		try {
 			ps = conn.prepareStatement(query);
 
-			ps.setInt(1, personaleA.getMatricola());
-			ps.setString(2, personaleA.getNome());
-			ps.setString(3, personaleA.getCognome());
-			ps.setLong(4, personaleA.getTelefono());
+			ps.setInt(1, istruttoreC.getMatricola());
+			ps.setString(2, istruttoreC.getNome());
+			ps.setString(3, istruttoreC.getCognome());
+			ps.setLong(4, istruttoreC.getTelefono());
 
 
 			int tmp = ps.executeUpdate();
@@ -84,15 +87,15 @@ public class PersonaleADAO {
 		return esito;
 	}
 
-	public boolean elimina(PersonaleA personaleA) {
-		String query = "DELETE FROM PersonaleA WHERE matricola = ?";
+	public boolean elimina(Istruttore_corso istruttoreC) {
+		String query = "DELETE FROM IstruttoreC WHERE matricola = ?";
 		boolean esito = false;
 
 		PreparedStatement ps;
 		conn = DBManager.startConnection();
 		try {
 			ps = conn.prepareStatement(query);
-			ps.setInt(1, personaleA.getMatricola());
+			ps.setInt(1, istruttoreC.getMatricola());
 
 			int tmp = ps.executeUpdate();
 			if (tmp == 1)
@@ -106,8 +109,8 @@ public class PersonaleADAO {
 		return esito;
 	}
 
-	//	public boolean modifica(PersonaleA personaleA) {
-	//		String query = "UPDATE PersonaleA SET nome=? WHERE id=?";
+	//	public boolean modifica(IstruttoreC istruttoreC) {
+	//		String query = "UPDATE IstruttoreC SET nome=? WHERE id=?";
 	//		boolean esito = false;
 	//
 	//		PreparedStatement ps;
@@ -115,8 +118,8 @@ public class PersonaleADAO {
 	//		try {
 	//			ps = conn.prepareStatement(query);
 	//
-	//			ps.setInt(1, personaleA.getId());
-	//			ps.setLong(2, personaleA.getTelefono());
+	//			ps.setInt(1, istruttoreC.getId());
+	//			ps.setLong(2, istruttoreC.getTelefono());
 	//		
 	//
 	//			int tmp = ps.executeUpdate();
@@ -128,5 +131,6 @@ public class PersonaleADAO {
 	//		DBManager.closeConnection();
 	//		return esito;
 	//	}
+
 
 }

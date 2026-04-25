@@ -7,13 +7,13 @@ import java.sql.Connection;
 import it.pale.tweb.dao.utils.DBManager;
 
 
-public class IstruttoreSDAO {
+public class Istruttore_salaDAO {
 	private static Connection conn = null;
 
-	public IstruttoreS get(IstruttoreS istruttoreS) {
+	public Istruttore_sala get(Istruttore_sala istruttoreS) {
 		String query = "SELECT * FROM IstruttoreS WHERE matricola=?";
 
-		IstruttoreS res = null;
+		Istruttore_sala res = null;
 		PreparedStatement ps;
 		conn = DBManager.startConnection();
 		try {
@@ -30,8 +30,8 @@ public class IstruttoreSDAO {
 		return res;
 	}
 
-	private IstruttoreS recordToIstruttoreS(ResultSet rs) throws SQLException {
-		IstruttoreS istruttoreS = new IstruttoreS();
+	private Istruttore_sala recordToIstruttoreS(ResultSet rs) throws SQLException {
+		Istruttore_sala istruttoreS = new Istruttore_sala();
 		istruttoreS.setMatricola(rs.getInt("matricola"));
 		istruttoreS.setNome(rs.getString("nome"));
 		istruttoreS.setCognome(rs.getString("cognome"));
@@ -41,17 +41,17 @@ public class IstruttoreSDAO {
 		return istruttoreS;
 	}
 
-	public Vector<IstruttoreS> getAll() {
+	public Vector<Istruttore_sala> getAll() {
 		String query = "SELECT * FROM IstruttoreS order by matricola";
 
-		Vector<IstruttoreS> res = new Vector<IstruttoreS>();
+		Vector<Istruttore_sala> res = new Vector<Istruttore_sala>();
 		PreparedStatement ps;
 		conn = DBManager.startConnection();
 		try {
 			ps = conn.prepareStatement(query);
 			ResultSet rs = ps.executeQuery();
 			while (rs.next()) {
-				IstruttoreS istruttoreS = recordToIstruttoreS(rs);
+				Istruttore_sala istruttoreS = recordToIstruttoreS(rs);
 				res.add(istruttoreS);
 			}
 		} catch (SQLException e) {
@@ -61,7 +61,7 @@ public class IstruttoreSDAO {
 		return res;
 	}
 
-	public boolean salva(IstruttoreS istruttoreS) {
+	public boolean salva(Istruttore_sala istruttoreS) {
 		String query = "INSERT INTO IstruttoreS VALUES ( ?, ?, ?, ?)";
 		boolean esito = false;
 
@@ -86,7 +86,7 @@ public class IstruttoreSDAO {
 		return esito;
 	}
 
-	public boolean elimina(IstruttoreS istruttoreS) {
+	public boolean elimina(Istruttore_sala istruttoreS) {
 		String query = "DELETE FROM IstruttoreS WHERE matricola = ?";
 		boolean esito = false;
 

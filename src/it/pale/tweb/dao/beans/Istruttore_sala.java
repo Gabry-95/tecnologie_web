@@ -1,13 +1,13 @@
 package it.pale.tweb.dao.beans;
 
-public class IstruttoreC {
+public class Istruttore_sala {
 	private int matricola;
 	private String nome;
 	private String cognome;
 	private int palestra;
 	private long telefono;
 
-	public IstruttoreC() {
+	public Istruttore_sala() {
 		this.matricola=0;
 		this.nome=null;
 		this.cognome=null;
@@ -15,7 +15,7 @@ public class IstruttoreC {
 		this.telefono=0;
 	}
 
-	public IstruttoreC(int matricola, String nome, String cognome, int palestra, long telefono) {
+	public Istruttore_sala(int matricola, String nome, String cognome, int palestra, long telefono) {
 
 		this.matricola = matricola;
 		this.nome = nome;
