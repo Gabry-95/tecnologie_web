@@ -9,7 +9,7 @@ import it.pale.tweb.dao.utils.DBManager;
 
 public class ClienteDAO {
 	private static Connection conn = null;
-	
+
 	public Cliente get(Cliente cliente) {
 		String query = "SELECT * FROM Cliente WHERE Matricola=?";
 
@@ -29,7 +29,7 @@ public class ClienteDAO {
 		DBManager.closeConnection();
 		return res;
 	}
-	
+
 	public boolean salva(Cliente cliente) {
 		String query = "INSERT INTO Cliente VALUES ( ?, ?, ?, ?, ?, ?)";
 		boolean esito = false;
@@ -53,15 +53,15 @@ public class ClienteDAO {
 		DBManager.closeConnection();
 		return esito;
 	}
-	
+
 	private Cliente recordToCliente(ResultSet rs) throws SQLException {
 		Cliente cliente = new Cliente();
 		cliente.setMatricola(rs.getInt("matricola"));
 		cliente.setNome(rs.getString("nome"));
 		cliente.setCognome(rs.getString("cognome"));
 		cliente.setTelefono(rs.getLong("telefono"));
- 
- 
+
+
 		return cliente;
 	}
 
@@ -86,10 +86,10 @@ public class ClienteDAO {
 		DBManager.closeConnection();
 		return esito;
 	}
-	
+
 	public Vector<Cliente> getAll() {
 		String query = "SELECT * FROM Cliente order by matricola";
- 
+
 		Vector<Cliente> res = new Vector<Cliente>();
 		PreparedStatement ps;
 		conn = DBManager.startConnection();
@@ -106,9 +106,9 @@ public class ClienteDAO {
 		DBManager.closeConnection();
 		return res;
 	}
-	
+
 	public boolean modifica(Cliente cliente) {
-		String query = "UPDATE Cliente SET nome=? WHERE Matricola=?";
+		String query = "UPDATE Cliente SET nome=?, cognome=?, telefono=? WHERE Matricola=?";
 		boolean esito = false;
 
 		PreparedStatement ps;
@@ -116,9 +116,12 @@ public class ClienteDAO {
 		try {
 			ps = conn.prepareStatement(query);
 
-			ps.setInt(1, cliente.getMatricola());
-			ps.setLong(2, cliente.getTelefono());
-		
+			ps.setString(1, cliente.getNome());
+			ps.setString(2, cliente.getCognome());
+			ps.setLong(3, cliente.getTelefono());
+			ps.setInt(4, cliente.getMatricola());
+
+
 
 			int tmp = ps.executeUpdate();
 			if (tmp == 1)

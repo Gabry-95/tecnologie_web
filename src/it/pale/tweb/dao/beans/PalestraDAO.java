@@ -109,7 +109,7 @@ public class PalestraDAO {
 	}
 
 	public boolean modifica(Palestra palestra) {
-		String query = "UPDATE Palestra SET telefono=? WHERE id=?";
+		String query = "UPDATE Palestra SET telefono=?, cap=?, via=?, citta=? WHERE id=?";
 		boolean esito = false;
 
 		PreparedStatement ps;
@@ -117,9 +117,14 @@ public class PalestraDAO {
 		try {
 			ps = conn.prepareStatement(query);
 
-			ps.setInt(1, palestra.getId());
-			ps.setLong(2, palestra.getTelefono());
-		
+
+			ps.setLong(1, palestra.getTelefono());
+			ps.setInt(2, palestra.getCap());
+			ps.setString(3, palestra.getVia());
+			ps.setString(4, palestra.getCitta());
+			ps.setInt(5, palestra.getId());
+
+
 
 			int tmp = ps.executeUpdate();
 			if (tmp == 1)

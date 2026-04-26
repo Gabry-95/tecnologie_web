@@ -64,6 +64,12 @@ public class Personal_trainer {
 		this.telefono = telefono;
 	}
 
+	@Override
+	public String toString() {
+		return "Personal_trainer [matricola=" + matricola + ", nome=" + nome + ", cognome=" + cognome + ", palestra="
+				+ palestra + ", telefono=" + telefono + "]";
+	}
+
 
 
 

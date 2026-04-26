@@ -8,7 +8,7 @@ public class Corso {
 	private int costo;
 	private String tipo;
 	private int palestra;
-	
+
 	public Corso() {
 		this.id=0;
 		this.nome=null;
@@ -19,7 +19,7 @@ public class Corso {
 	}
 
 	public Corso(int id, String nome, int anno, int costo, String tipo, int palestra) {
-		
+
 		this.id = id;
 		this.nome = nome;
 		this.anno = anno;
@@ -75,8 +75,14 @@ public class Corso {
 	public void setPalestra(int palestra) {
 		this.palestra = palestra;
 	}
-	
-	
+
+	@Override
+	public String toString() {
+		return "Corso [id=" + id + ", nome=" + nome + ", anno=" + anno + ", costo=" + costo + ", tipo=" + tipo
+				+ ", palestra=" + palestra + "]";
+	}
+
+
 }
 
 

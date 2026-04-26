@@ -63,4 +63,11 @@ public class Istruttore_corso {
 	public void setTelefono(long telefono) {
 		this.telefono = telefono;
 	}
+
+	@Override
+	public String toString() {
+		return "Istruttore_corso [matricola=" + matricola + ", nome=" + nome + ", cognome=" + cognome + ", palestra="
+				+ palestra + ", telefono=" + telefono + "]";
+	}
+
 }

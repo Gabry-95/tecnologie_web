@@ -12,7 +12,7 @@ public class Istruttore_corsoDAO {
 	private static Connection conn = null;
 
 	public Istruttore_corso get(Istruttore_corso istruttoreC) {
-		String query = "SELECT * FROM IstruttoreC WHERE matricola=?";
+		String query = "SELECT * FROM Istruttore_corso WHERE matricola=?";
 
 		Istruttore_corso res = null;
 		PreparedStatement ps;
@@ -43,7 +43,7 @@ public class Istruttore_corsoDAO {
 	}
 
 	public Vector<Istruttore_corso> getAll() {
-		String query = "SELECT * FROM IstruttoreC order by matricola";
+		String query = "SELECT * FROM Istruttore_corso order by matricola";
 
 		Vector<Istruttore_corso> res = new Vector<Istruttore_corso>();
 		PreparedStatement ps;
@@ -63,7 +63,7 @@ public class Istruttore_corsoDAO {
 	}
 
 	public boolean salva(Istruttore_corso istruttoreC) {
-		String query = "INSERT INTO IstruttoreC VALUES ( ?, ?, ?, ?)";
+		String query = "INSERT INTO Istruttore_corso VALUES ( ?, ?, ?, ?)";
 		boolean esito = false;
 
 		PreparedStatement ps;
@@ -88,7 +88,7 @@ public class Istruttore_corsoDAO {
 	}
 
 	public boolean elimina(Istruttore_corso istruttoreC) {
-		String query = "DELETE FROM IstruttoreC WHERE matricola = ?";
+		String query = "DELETE FROM Istruttore_corso WHERE matricola = ?";
 		boolean esito = false;
 
 		PreparedStatement ps;
@@ -109,28 +109,31 @@ public class Istruttore_corsoDAO {
 		return esito;
 	}
 
-	//	public boolean modifica(IstruttoreC istruttoreC) {
-	//		String query = "UPDATE IstruttoreC SET nome=? WHERE id=?";
-	//		boolean esito = false;
-	//
-	//		PreparedStatement ps;
-	//		conn = DBManager.startConnection();
-	//		try {
-	//			ps = conn.prepareStatement(query);
-	//
-	//			ps.setInt(1, istruttoreC.getId());
-	//			ps.setLong(2, istruttoreC.getTelefono());
-	//		
-	//
-	//			int tmp = ps.executeUpdate();
-	//			if (tmp == 1)
-	//				esito = true;
-	//		} catch (SQLException e) {
-	//			e.printStackTrace();
-	//		}
-	//		DBManager.closeConnection();
-	//		return esito;
-	//	}
+	public boolean modifica(Istruttore_corso istruttoreC) {
+		String query = "UPDATE Istruttore_corso SET nome=?, cognome=?, palestra=?, telefono=? WHERE matricola=?";
+		boolean esito = false;
+
+		PreparedStatement ps;
+		conn = DBManager.startConnection();
+		try {
+			ps = conn.prepareStatement(query);
+
+			ps.setString(1, istruttoreC.getNome());
+			ps.setString(2, istruttoreC.getCognome());
+			ps.setInt(3, istruttoreC.getPalestra());
+			ps.setLong(4, istruttoreC.getTelefono());
+			ps.setInt(5, istruttoreC.getMatricola());
+
+
+			int tmp = ps.executeUpdate();
+			if (tmp == 1)
+				esito = true;
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		DBManager.closeConnection();
+		return esito;
+	}
 
 
 }

@@ -63,4 +63,11 @@ public class Personale_ammistrativo {
 	public void setTelefono(long telefono) {
 		this.telefono = telefono;
 	}
+
+	@Override
+	public String toString() {
+		return "Personale_ammistrativo [matricola=" + matricola + ", nome=" + nome + ", cognome=" + cognome
+				+ ", palestra=" + palestra + ", telefono=" + telefono + "]";
+	}
+
 }
