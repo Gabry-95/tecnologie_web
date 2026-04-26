@@ -131,5 +131,30 @@ public class Personale_amministrativoDAO {
 		DBManager.closeConnection();
 		return esito;
 	}
+	
+	//Elenca personale amministrativo di una palestra ordinandoli per cognome
+	public Vector<Personale_ammistrativo> elencoIS(Palestra p) {
+		String query = "SELECT cognome, nome FROM personale_amministrativo"
+				+ "WHERE palestra = ?"
+				+ "ORDER BY cognome";
+
+		Vector<Personale_ammistrativo> res = new Vector<Personale_ammistrativo>();
+		PreparedStatement ps;
+		conn = DBManager.startConnection();
+		try {
+			ps = conn.prepareStatement(query);
+			ResultSet rs = ps.executeQuery();
+			ps.setInt(1, p.getId());
+			while (rs.next()) {
+				Personale_ammistrativo personalA = recordToPersonaleA(rs);
+				res.add(personalA);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		DBManager.closeConnection();
+		return res;
+	}
+
 
 }
