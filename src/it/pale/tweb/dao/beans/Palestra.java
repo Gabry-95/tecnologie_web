@@ -63,6 +63,13 @@ public class Palestra {
 	}
 
 
+	@Override
+	public String toString() {
+		return "Palestra [id=" + id + ", telefono=" + telefono + ", cap=" + cap + ", via=" + via + ", citta=" + citta
+				+ "]";
+	}
+
+
 
 
 

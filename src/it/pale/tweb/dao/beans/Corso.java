@@ -75,6 +75,12 @@ public class Corso {
 	public void setPalestra(int palestra) {
 		this.palestra = palestra;
 	}
+
+	@Override
+	public String toString() {
+		return "Corso [id=" + id + ", nome=" + nome + ", anno=" + anno + ", costo=" + costo + ", tipo=" + tipo
+				+ ", palestra=" + palestra + "]";
+	}
 	
 	
 }
