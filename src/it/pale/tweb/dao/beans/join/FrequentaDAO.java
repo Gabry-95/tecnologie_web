@@ -1,34 +1,28 @@
 package it.pale.tweb.dao.beans.join;
 
+import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
-import java.util.Date;
-import java.sql.Connection;
 
 import it.pale.tweb.dao.beans.Abbonamento;
-import it.pale.tweb.dao.beans.Palestra;
+import it.pale.tweb.dao.beans.Corso;
 import it.pale.tweb.dao.utils.DBManager;
 
-public class Da_accessoDAO {
-	
+public class FrequentaDAO {
 	private static Connection conn = null;
 
-	public boolean salva(Palestra p, Abbonamento a, Date d) {
-		String query = "INSERT INTO Da_accesso VALUES ( ?, ?, ?)";
+	public boolean salva(Abbonamento a, Corso c) {
+		String query = "INSERT INTO frequenta VALUES ( ?, ?)";
 		boolean esito = false;
 
 		PreparedStatement ps;
 		conn = DBManager.startConnection();
 		try {
 			ps = conn.prepareStatement(query);
-
-			ps.setInt(1, p.getId());
-			ps.setInt(2, a.getFattura());
 			
-			//converto da util.Date a sql.Date 
-			java.sql.Date data=new java.sql.Date(d.getTime());
-			ps.setDate(3, data);
-
+			ps.setInt(1, a.getFattura());
+			ps.setInt(2, c.getId());
+			
 			int tmp = ps.executeUpdate();
 			if (tmp == 1)
 				esito = true;
@@ -39,21 +33,17 @@ public class Da_accessoDAO {
 		return esito;
 	}
 
-	public boolean elimina(Palestra p, Abbonamento a, Date d) {
-		String query = "DELETE FROM Da_accesso WHERE palestra=? AND abbonamento=? AND data=?";
+	public boolean elimina(Abbonamento a, Corso c) {
+		String query = "DELETE FROM frequenta WHERE Corso=? AND abbonamento=?";
 		boolean esito = false;
 
 		PreparedStatement ps;
 		conn = DBManager.startConnection();
 		try {
 			ps = conn.prepareStatement(query);
-			ps.setInt(1, p.getId());
+			ps.setInt(1, c.getId());
 			ps.setInt(2, a.getFattura());
 			
-			//converto da util.Date a sql.Date 
-			java.sql.Date data=new java.sql.Date(d.getTime());
-			ps.setDate(3, data);
-
 			int tmp = ps.executeUpdate();
 			if (tmp == 1)
 				esito = true;
@@ -66,10 +56,9 @@ public class Da_accessoDAO {
 		return esito;
 	}
 	
-	public boolean modifica(Palestra oldP, Abbonamento oldA, Date oldDate, 
-			Palestra newP, Abbonamento newA, Date newDate) {
-		String query = "UPDATE Da_accesso SET palestra=?, abbonamento=?, data=? " +
-				"WHERE palestra=? AND abbonamento=? AND data=?";
+	public boolean modifica(Corso oldC, Abbonamento oldA, Corso newC, Abbonamento newA) {
+		String query = "UPDATE frequenta SET Corso=?, Abbonamento=? "+
+				"WHERE Corso=? AND Abbonamento=?";
 		boolean esito = false;
 
 		PreparedStatement ps;
@@ -78,18 +67,12 @@ public class Da_accessoDAO {
 			ps = conn.prepareStatement(query);
 			
 			//nuovi
-			ps.setInt(1, newP.getId());
+			ps.setInt(1, newC.getId());
 			ps.setLong(2, newA.getFattura());
 			
-			//converto da util.Date a sql.Date
-			ps.setDate(3, new java.sql.Date(newDate.getTime()));
-			
 			//vecchi
-			ps.setInt(4, oldP.getId());
+			ps.setInt(4, oldC.getId());
 			ps.setLong(5, oldA.getFattura());
-			
-			//converto da util.Date a sql.Date
-			ps.setDate(6, new java.sql.Date(oldDate.getTime()));
 
 			int tmp = ps.executeUpdate();
 			if (tmp == 1)
