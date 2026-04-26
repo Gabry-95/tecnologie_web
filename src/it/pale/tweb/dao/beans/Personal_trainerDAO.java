@@ -132,5 +132,29 @@ public class Personal_trainerDAO {
 		DBManager.closeConnection();
 		return esito;
 	}
+	
+	//Elenca personal trainer di una palestra ordinandoli per cognome
+	public Vector<Personal_trainer> elencoIS(Palestra p) {
+		String query = "SELECT cognome, nome FROM personal_trainer"
+				+ "WHERE palestra = ?"
+				+ "ORDER BY cognome";
 
+		Vector<Personal_trainer> res = new Vector<Personal_trainer>();
+		PreparedStatement ps;
+		conn = DBManager.startConnection();
+		try {
+			ps = conn.prepareStatement(query);
+			ResultSet rs = ps.executeQuery();
+			ps.setInt(1, p.getId());
+			while (rs.next()) {
+				Personal_trainer personalT = recordToPersonalT(rs);
+				res.add(personalT);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		DBManager.closeConnection();
+		return res;
+	}
+	
 }

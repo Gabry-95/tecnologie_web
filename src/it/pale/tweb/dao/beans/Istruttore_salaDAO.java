@@ -133,5 +133,29 @@ public class Istruttore_salaDAO {
 		DBManager.closeConnection();
 		return esito;
 	}
+	
+	//Elenca istruttori di sala di una palestra ordinandoli per cognome
+	public Vector<Istruttore_sala> elencoIS(Palestra p) {
+		String query = "SELECT cognome, nome FROM istruttore_sala"
+				+ "WHERE palestra = ?"
+				+ "ORDER BY cognome";
+
+		Vector<Istruttore_sala> res = new Vector<Istruttore_sala>();
+		PreparedStatement ps;
+		conn = DBManager.startConnection();
+		try {
+			ps = conn.prepareStatement(query);
+			ResultSet rs = ps.executeQuery();
+			ps.setInt(1, p.getId());
+			while (rs.next()) {
+				Istruttore_sala istruttoreS = recordToIstruttoreS(rs);
+				res.add(istruttoreS);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		DBManager.closeConnection();
+		return res;
+	}
 
 }
