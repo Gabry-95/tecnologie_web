@@ -109,27 +109,32 @@ public class CorsoDAO {
 		return esito;
 	}
 
-//	public boolean modifica(Corso corso) {
-//		String query = "UPDATE Corso SET nome=? WHERE id=?";
-//		boolean esito = false;
-//
-//		PreparedStatement ps;
-//		conn = DBManager.startConnection();
-//		try {
-//			ps = conn.prepareStatement(query);
-//
-//			ps.setInt(1, corso.getId());
-//			ps.setLong(2, corso.getTelefono());
-//		
-//
-//			int tmp = ps.executeUpdate();
-//			if (tmp == 1)
-//				esito = true;
-//		} catch (SQLException e) {
-//			e.printStackTrace();
-//		}
-//		DBManager.closeConnection();
-//		return esito;
-//	}
+	public boolean modifica(Corso corso) {
+		String query = "UPDATE Corso SET nome=?, anno=?, costo=?, tipo=?, palestra=? WHERE id=?";
+		boolean esito = false;
+
+		PreparedStatement ps;
+		conn = DBManager.startConnection();
+		try {
+			ps = conn.prepareStatement(query);
+
+
+			ps.setString(1, corso.getNome());
+			ps.setInt(2, corso.getAnno());
+			ps.setInt(3, corso.getCosto());
+			ps.setString(4, corso.getTipo());
+			ps.setInt(5, corso.getPalestra());
+			ps.setInt(6, corso.getId());
+
+
+			int tmp = ps.executeUpdate();
+			if (tmp == 1)
+				esito = true;
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		DBManager.closeConnection();
+		return esito;
+	}
 
 }

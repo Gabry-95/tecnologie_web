@@ -69,5 +69,5 @@ public class Istruttore_sala {
 		return "Istruttore_sala [matricola=" + matricola + ", nome=" + nome + ", cognome=" + cognome + ", palestra="
 				+ palestra + ", telefono=" + telefono + "]";
 	}
-	
+
 }

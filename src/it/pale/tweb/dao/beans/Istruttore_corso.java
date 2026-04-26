@@ -69,5 +69,5 @@ public class Istruttore_corso {
 		return "Istruttore_corso [matricola=" + matricola + ", nome=" + nome + ", cognome=" + cognome + ", palestra="
 				+ palestra + ", telefono=" + telefono + "]";
 	}
-	
+
 }

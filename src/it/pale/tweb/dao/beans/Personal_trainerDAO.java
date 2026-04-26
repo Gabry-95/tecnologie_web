@@ -10,7 +10,7 @@ public class Personal_trainerDAO {
 	private static Connection conn = null;
 
 	public Personal_trainer get(Personal_trainer personalT) {
-		String query = "SELECT * FROM PersonalT WHERE matricola=?";
+		String query = "SELECT * FROM Personal_trainer WHERE matricola=?";
 
 		Personal_trainer res = null;
 		PreparedStatement ps;
@@ -41,7 +41,7 @@ public class Personal_trainerDAO {
 	}
 
 	public Vector<Personal_trainer> getAll() {
-		String query = "SELECT * FROM PersonalT order by matricola";
+		String query = "SELECT * FROM Personal_trainer order by matricola";
 
 		Vector<Personal_trainer> res = new Vector<Personal_trainer>();
 		PreparedStatement ps;
@@ -61,7 +61,7 @@ public class Personal_trainerDAO {
 	}
 
 	public boolean salva(Personal_trainer personalT) {
-		String query = "INSERT INTO PersonalT VALUES ( ?, ?, ?, ?)";
+		String query = "INSERT INTO Personal_trainer VALUES ( ?, ?, ?, ?)";
 		boolean esito = false;
 
 		PreparedStatement ps;
@@ -86,7 +86,7 @@ public class Personal_trainerDAO {
 	}
 
 	public boolean elimina(Personal_trainer personalT) {
-		String query = "DELETE FROM PersonalT WHERE matricola = ?";
+		String query = "DELETE FROM Personal_trainer WHERE matricola = ?";
 		boolean esito = false;
 
 		PreparedStatement ps;
@@ -107,27 +107,30 @@ public class Personal_trainerDAO {
 		return esito;
 	}
 
-	//	public boolean modifica(PersonalT PersonalT) {
-	//		String query = "UPDATE PersonalT SET nome=? WHERE id=?";
-	//		boolean esito = false;
-	//
-	//		PreparedStatement ps;
-	//		conn = DBManager.startConnection();
-	//		try {
-	//			ps = conn.prepareStatement(query);
-	//
-	//			ps.setInt(1, PersonalT.getId());
-	//			ps.setLong(2, PersonalT.getTelefono());
-	//		
-	//
-	//			int tmp = ps.executeUpdate();
-	//			if (tmp == 1)
-	//				esito = true;
-	//		} catch (SQLException e) {
-	//			e.printStackTrace();
-	//		}
-	//		DBManager.closeConnection();
-	//		return esito;
-	//	}
+	public boolean modifica(Personal_trainer PersonalT) {
+		String query = "UPDATE Personal_trainer SET nome=?, cognome=?, palestra=?, telefono=? WHERE matricola=?";
+		boolean esito = false;
+
+		PreparedStatement ps;
+		conn = DBManager.startConnection();
+		try {
+			ps = conn.prepareStatement(query);
+
+			ps.setString(1, PersonalT.getNome());
+			ps.setString(2, PersonalT.getCognome());
+			ps.setInt(3, PersonalT.getPalestra());
+			ps.setLong(4, PersonalT.getTelefono());
+			ps.setInt(5, PersonalT.getMatricola());
+
+
+			int tmp = ps.executeUpdate();
+			if (tmp == 1)
+				esito = true;
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		DBManager.closeConnection();
+		return esito;
+	}
 
 }

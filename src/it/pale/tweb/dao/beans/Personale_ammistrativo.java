@@ -69,5 +69,5 @@ public class Personale_ammistrativo {
 		return "Personale_ammistrativo [matricola=" + matricola + ", nome=" + nome + ", cognome=" + cognome
 				+ ", palestra=" + palestra + ", telefono=" + telefono + "]";
 	}
-	
+
 }

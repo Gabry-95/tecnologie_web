@@ -11,7 +11,7 @@ public class Istruttore_salaDAO {
 	private static Connection conn = null;
 
 	public Istruttore_sala get(Istruttore_sala istruttoreS) {
-		String query = "SELECT * FROM IstruttoreS WHERE matricola=?";
+		String query = "SELECT * FROM Istruttore_sala WHERE matricola=?";
 
 		Istruttore_sala res = null;
 		PreparedStatement ps;
@@ -36,13 +36,13 @@ public class Istruttore_salaDAO {
 		istruttoreS.setNome(rs.getString("nome"));
 		istruttoreS.setCognome(rs.getString("cognome"));
 		istruttoreS.setTelefono(rs.getLong("telefono"));
-		
+
 
 		return istruttoreS;
 	}
 
 	public Vector<Istruttore_sala> getAll() {
-		String query = "SELECT * FROM IstruttoreS order by matricola";
+		String query = "SELECT * FROM Istruttore_sala order by matricola";
 
 		Vector<Istruttore_sala> res = new Vector<Istruttore_sala>();
 		PreparedStatement ps;
@@ -62,7 +62,7 @@ public class Istruttore_salaDAO {
 	}
 
 	public boolean salva(Istruttore_sala istruttoreS) {
-		String query = "INSERT INTO IstruttoreS VALUES ( ?, ?, ?, ?)";
+		String query = "INSERT INTO Istruttore_sala VALUES ( ?, ?, ?, ?)";
 		boolean esito = false;
 
 		PreparedStatement ps;
@@ -74,7 +74,7 @@ public class Istruttore_salaDAO {
 			ps.setString(2, istruttoreS.getNome());
 			ps.setString(3, istruttoreS.getCognome());
 			ps.setLong(4, istruttoreS.getTelefono());
-			
+
 
 			int tmp = ps.executeUpdate();
 			if (tmp == 1)
@@ -87,7 +87,7 @@ public class Istruttore_salaDAO {
 	}
 
 	public boolean elimina(Istruttore_sala istruttoreS) {
-		String query = "DELETE FROM IstruttoreS WHERE matricola = ?";
+		String query = "DELETE FROM Istruttore_sala WHERE matricola = ?";
 		boolean esito = false;
 
 		PreparedStatement ps;
@@ -108,27 +108,30 @@ public class Istruttore_salaDAO {
 		return esito;
 	}
 
-//	public boolean modifica(IstruttoreS istruttoreS) {
-//		String query = "UPDATE IstruttoreS SET nome=? WHERE id=?";
-//		boolean esito = false;
-//
-//		PreparedStatement ps;
-//		conn = DBManager.startConnection();
-//		try {
-//			ps = conn.prepareStatement(query);
-//
-//			ps.setInt(1, istruttoreS.getId());
-//			ps.setLong(2, istruttoreS.getTelefono());
-//		
-//
-//			int tmp = ps.executeUpdate();
-//			if (tmp == 1)
-//				esito = true;
-//		} catch (SQLException e) {
-//			e.printStackTrace();
-//		}
-//		DBManager.closeConnection();
-//		return esito;
-//	}
+	public boolean modifica(Istruttore_sala istruttoreS) {
+		String query = "UPDATE Istruttore_sala SET nome=?, cognome=?, palestra=?, telefono=? WHERE matricola=?";
+		boolean esito = false;
+
+		PreparedStatement ps;
+		conn = DBManager.startConnection();
+		try {
+			ps = conn.prepareStatement(query);
+
+			ps.setString(1, istruttoreS.getNome());
+			ps.setString(2, istruttoreS.getCognome());
+			ps.setInt(3, istruttoreS.getPalestra());
+			ps.setLong(4, istruttoreS.getTelefono());
+			ps.setInt(5, istruttoreS.getMatricola());
+
+
+			int tmp = ps.executeUpdate();
+			if (tmp == 1)
+				esito = true;
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		DBManager.closeConnection();
+		return esito;
+	}
 
 }

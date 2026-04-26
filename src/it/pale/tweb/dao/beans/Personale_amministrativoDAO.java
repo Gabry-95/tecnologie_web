@@ -9,7 +9,7 @@ public class Personale_amministrativoDAO {
 	private static Connection conn = null;
 
 	public Personale_ammistrativo get(Personale_ammistrativo personaleA) {
-		String query = "SELECT * FROM PersonaleA WHERE matricola=?";
+		String query = "SELECT * FROM Personale_amministrativo WHERE matricola=?";
 
 		Personale_ammistrativo res = null;
 		PreparedStatement ps;
@@ -40,7 +40,7 @@ public class Personale_amministrativoDAO {
 	}
 
 	public Vector<Personale_ammistrativo> getAll() {
-		String query = "SELECT * FROM PersonaleA order by matricola";
+		String query = "SELECT * FROM Personale_amministrativo order by matricola";
 
 		Vector<Personale_ammistrativo> res = new Vector<Personale_ammistrativo>();
 		PreparedStatement ps;
@@ -60,7 +60,7 @@ public class Personale_amministrativoDAO {
 	}
 
 	public boolean salva(Personale_ammistrativo personaleA) {
-		String query = "INSERT INTO PersonaleA VALUES ( ?, ?, ?, ?)";
+		String query = "INSERT INTO Personale_ammistrativo VALUES ( ?, ?, ?, ?)";
 		boolean esito = false;
 
 		PreparedStatement ps;
@@ -85,7 +85,7 @@ public class Personale_amministrativoDAO {
 	}
 
 	public boolean elimina(Personale_ammistrativo personaleA) {
-		String query = "DELETE FROM PersonaleA WHERE matricola = ?";
+		String query = "DELETE FROM Personale_amministrativo WHERE matricola = ?";
 		boolean esito = false;
 
 		PreparedStatement ps;
@@ -106,27 +106,30 @@ public class Personale_amministrativoDAO {
 		return esito;
 	}
 
-	//	public boolean modifica(PersonaleA personaleA) {
-	//		String query = "UPDATE PersonaleA SET nome=? WHERE id=?";
-	//		boolean esito = false;
-	//
-	//		PreparedStatement ps;
-	//		conn = DBManager.startConnection();
-	//		try {
-	//			ps = conn.prepareStatement(query);
-	//
-	//			ps.setInt(1, personaleA.getId());
-	//			ps.setLong(2, personaleA.getTelefono());
-	//		
-	//
-	//			int tmp = ps.executeUpdate();
-	//			if (tmp == 1)
-	//				esito = true;
-	//		} catch (SQLException e) {
-	//			e.printStackTrace();
-	//		}
-	//		DBManager.closeConnection();
-	//		return esito;
-	//	}
+	public boolean modifica(Personale_ammistrativo personaleA) {
+		String query = "UPDATE Personale_ammistrativo SET nome=?, cognome=?, palestra=?, telefono=? WHERE matricola=?";
+		boolean esito = false;
+
+		PreparedStatement ps;
+		conn = DBManager.startConnection();
+		try {
+			ps = conn.prepareStatement(query);
+
+			ps.setString(1, personaleA.getNome());
+			ps.setString(2, personaleA.getCognome());
+			ps.setInt(3, personaleA.getPalestra());
+			ps.setLong(4, personaleA.getTelefono());
+			ps.setInt(5, personaleA.getMatricola());
+
+
+			int tmp = ps.executeUpdate();
+			if (tmp == 1)
+				esito = true;
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		DBManager.closeConnection();
+		return esito;
+	}
 
 }
