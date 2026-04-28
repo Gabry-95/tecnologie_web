@@ -132,31 +132,33 @@ public class ClienteDAO {
 		DBManager.closeConnection();
 		return esito;
 	}
-	
-	//Elenca clienti seguiti dallo stesso personal trainer
-		public Vector<Cliente> elencaClienti(Personal_trainer pt) {
-			String query ="SELECT cliente.Nome, cliente.cognome FROM personal_trainer"
-					+ "JOIN segue ON segue.PersonalTrainer = personal_trainer.Matricola"
-					+ "JOIN abbonamento ON abbonamento.Fattura = segue.Abbonamento"
-					+ "JOIN cliente ON cliente.Matricola = abbonamento.Cliente"
-					+ "WHERE personal_trainer.Matricola=?";
 
-			Vector<Cliente> res = new Vector<Cliente>();
-			PreparedStatement ps;
-			conn = DBManager.startConnection();
-			try {
-				ps = conn.prepareStatement(query);
-				ResultSet rs = ps.executeQuery();
-				ps.setInt(1, pt.getMatricola());
-				while (rs.next()) {
-					Cliente c = recordToCliente(rs);
-					res.add(c);
-				}
-			} catch (SQLException e) {
-				e.printStackTrace();
+	//Elenca clienti seguiti dallo stesso personal trainer
+	public Vector<Cliente> elencaClienti(Personal_trainer pt) {
+		String query ="SELECT cliente.Nome, cliente.cognome FROM personal_trainer"
+				+ "JOIN segue ON segue.PersonalTrainer = personal_trainer.Matricola"
+				+ "JOIN abbonamento ON abbonamento.Fattura = segue.Abbonamento"
+				+ "JOIN cliente ON cliente.Matricola = abbonamento.Cliente"
+				+ "WHERE personal_trainer.Matricola=?";
+
+		Vector<Cliente> res = new Vector<Cliente>();
+		PreparedStatement ps;
+		conn = DBManager.startConnection();
+		try {
+			ps = conn.prepareStatement(query);
+			ResultSet rs = ps.executeQuery();
+			ps.setInt(1, pt.getMatricola());
+			while (rs.next()) {
+				Cliente c = recordToCliente(rs);
+				res.add(c);
 			}
-			DBManager.closeConnection();
-			return res;
+		} catch (SQLException e) {
+			e.printStackTrace();
 		}
+		DBManager.closeConnection();
+		return res;
+	}
+
+	
 
 }
