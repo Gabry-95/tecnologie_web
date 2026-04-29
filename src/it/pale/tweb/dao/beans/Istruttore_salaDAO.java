@@ -35,6 +35,7 @@ public class Istruttore_salaDAO {
 		istruttoreS.setMatricola(rs.getInt("matricola"));
 		istruttoreS.setNome(rs.getString("nome"));
 		istruttoreS.setCognome(rs.getString("cognome"));
+		istruttoreS.setPalestra(rs.getInt("palestra"));
 		istruttoreS.setTelefono(rs.getLong("telefono"));
 
 
@@ -62,7 +63,7 @@ public class Istruttore_salaDAO {
 	}
 
 	public boolean salva(Istruttore_sala istruttoreS) {
-		String query = "INSERT INTO Istruttore_sala VALUES ( ?, ?, ?, ?)";
+		String query = "INSERT INTO Istruttore_sala VALUES ( ?, ?, ?, ?, ?)";
 		boolean esito = false;
 
 		PreparedStatement ps;
@@ -73,7 +74,8 @@ public class Istruttore_salaDAO {
 			ps.setInt(1, istruttoreS.getMatricola());
 			ps.setString(2, istruttoreS.getNome());
 			ps.setString(3, istruttoreS.getCognome());
-			ps.setLong(4, istruttoreS.getTelefono());
+			ps.setInt(4, istruttoreS.getPalestra());
+			ps.setLong(5, istruttoreS.getTelefono());
 
 
 			int tmp = ps.executeUpdate();
@@ -158,6 +160,26 @@ public class Istruttore_salaDAO {
 		return res;
 	}
 	
-	
+	//69 Data una palestra restituire tutti i numeri di telefono dei dipendenti con nome e cognome
+	public Vector<String> getTelefonoIS(Palestra p) {
+		String query = "SELECT nome, cognome, telefono FROM Istruttore_sala WHERE palestra=?";
+
+		Vector<String> res = new Vector<String>();
+		PreparedStatement ps;
+		conn = DBManager.startConnection();
+		try {
+			ps = conn.prepareStatement(query);
+			ResultSet rs = ps.executeQuery();
+			ps.setInt(1, p.getId());
+			while (rs.next()) {
+				String s = rs.getString("nome")+" "+rs.getString("cognome")+" "+rs.getLong("telefono");
+				res.add(s);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		DBManager.closeConnection();
+		return res;
+	}
 
 }
