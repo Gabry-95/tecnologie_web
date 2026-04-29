@@ -34,6 +34,7 @@ public class Personal_trainerDAO {
 		personalT.setMatricola(rs.getInt("matricola"));
 		personalT.setNome(rs.getString("nome"));
 		personalT.setCognome(rs.getString("cognome"));
+		personalT.setPalestra(rs.getInt("palestra"));
 		personalT.setTelefono(rs.getLong("telefono"));
 
 
@@ -61,7 +62,7 @@ public class Personal_trainerDAO {
 	}
 
 	public boolean salva(Personal_trainer personalT) {
-		String query = "INSERT INTO Personal_trainer VALUES ( ?, ?, ?, ?)";
+		String query = "INSERT INTO Personal_trainer VALUES ( ?, ?, ?, ?, ?)";
 		boolean esito = false;
 
 		PreparedStatement ps;
@@ -72,7 +73,8 @@ public class Personal_trainerDAO {
 			ps.setInt(1, personalT.getMatricola());
 			ps.setString(2, personalT.getNome());
 			ps.setString(3, personalT.getCognome());
-			ps.setLong(4, personalT.getTelefono());
+			ps.setInt(4, personalT.getPalestra());
+			ps.setLong(5, personalT.getTelefono());
 
 
 			int tmp = ps.executeUpdate();
@@ -132,7 +134,7 @@ public class Personal_trainerDAO {
 		DBManager.closeConnection();
 		return esito;
 	}
-	
+
 	//Elenca personal trainer di una palestra ordinandoli per cognome
 	public Vector<Personal_trainer> elencoIS(Palestra p) {
 		String query = "SELECT cognome, nome FROM personal_trainer"
@@ -156,5 +158,59 @@ public class Personal_trainerDAO {
 		DBManager.closeConnection();
 		return res;
 	}
-	
+	//69. Data una palestra restituire tutti i numeri di telefono dei dipendenti con nome e cognome 
+	public Vector<String> getTelefonoPT(Palestra p) {
+		String query = "SELECT telefono, nome, cognome FROM Personal_Trainer palestra=?";
+
+
+		Vector<String> res = new Vector<String>();
+		PreparedStatement ps;
+		conn = DBManager.startConnection();
+		try {
+			ps = conn.prepareStatement(query);
+			ResultSet rs = ps.executeQuery();
+			ps.setInt(1, p.getId());
+			while (rs.next()) {
+				//abbiamo usato i " " per effettuare una conversione "forzata", siccome java non converte automaticamente il tipo "long" in "string"
+				String s = rs.getLong("telefono")+ "  " + rs.getString("nome")+ "  " + rs.getString("nome");
+				res.add(s);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		DBManager.closeConnection();
+		return res;
+	}
+	//33. Elenca i clienti con abbonamento Gold seguiti dallo stesso personal trainer
+	public Vector<String> getGoldPT(Personal_trainer pt) {
+		String query ="SELECT cliente.Nome, cliente.cognome FROM personal_trainer"
+	        + "JOIN segue ON segue.PersonalTrainer = personal_trainer.Matricola"
+	        + "JOIN abbonamento ON abbonamento.Fattura = segue.Abbonamento"
+	        + "JOIN cliente ON cliente.Matricola = abbonamento.Cliente"
+	        + "WHERE personal_trainer.Matricola=?";
+
+		Vector<String> res = new Vector<String>();
+		PreparedStatement ps;
+		conn = DBManager.startConnection();
+
+		try {
+
+			ps = conn.prepareStatement(query);
+			ResultSet rs = ps.executeQuery();
+			ps.setInt(1, pt.getMatricola());
+
+			while (rs.next()) {
+				String s = rs.getString("nome")+" "+rs.getString("cognome");
+				res.add(s);
+			}
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+
+		}
+		DBManager.closeConnection();
+		return res;
+
+	}
+
 }
