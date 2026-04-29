@@ -31,7 +31,7 @@ public class ClienteDAO {
 	}
 
 	public boolean salva(Cliente cliente) {
-		String query = "INSERT INTO Cliente VALUES ( ?, ?, ?, ?, ?, ?)";
+		String query = "INSERT INTO Cliente VALUES ( ?, ?, ?, ?)";
 		boolean esito = false;
 
 		PreparedStatement ps;
@@ -121,8 +121,6 @@ public class ClienteDAO {
 			ps.setLong(3, cliente.getTelefono());
 			ps.setInt(4, cliente.getMatricola());
 
-
-
 			int tmp = ps.executeUpdate();
 			if (tmp == 1)
 				esito = true;
@@ -159,35 +157,4 @@ public class ClienteDAO {
 			return res;
 		}
 		
-		//Dato un cliente stabilisci se, rinnovando l'ultimo abbonamento è passato da standard a premium o gold
-		public boolean upgrade(Cliente c) {
-			
-			boolean res=false;
-			String query= "SELECT tipo FROM (SELECT * FROM abbonamento"
-					+ "WHERE (Cliente IN (SELECT Cliente FROM abbonamento GROUP BY Cliente HAVING Count(*)>1))"
-					+ "AND Cliente = ? AND LimiteIngressi IS NULL"
-					+ "ORDER BY DataScadenza DESC"
-					+ "LIMIT 1) AS ultimo"
-					+ "WHERE ultimo.Tipo != (SELECT * FROM (SELECT Tipo FROM abbonamento"
-					+ "WHERE Cliente = ?"
-					+ "ORDER BY DataScadenza DESC"
-					+ "LIMIT 1,1) AS penultimo"
-					+ "WHERE penultimo.Tipo = 'Standard')";
-			
-			PreparedStatement ps;
-			conn = DBManager.startConnection();
-			try {
-				ps = conn.prepareStatement(query);
-				ps.setInt(1, c.getMatricola());
-				ps.setInt(2, c.getMatricola());
-				ResultSet rs = ps.executeQuery();
-				if(rs.next() && rs.getString("tipo") != null) {
-					res=true;
-				}
-				DBManager.closeConnection();
-			}catch(SQLException e) {
-				e.printStackTrace();
-			}
-			return res;
-		}
 }
