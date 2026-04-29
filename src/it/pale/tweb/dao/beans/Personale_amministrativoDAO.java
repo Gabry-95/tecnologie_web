@@ -33,6 +33,7 @@ public class Personale_amministrativoDAO {
 		personaleA.setMatricola(rs.getInt("matricola"));
 		personaleA.setNome(rs.getString("nome"));
 		personaleA.setCognome(rs.getString("cognome"));
+		personaleA.setPalestra(rs.getInt("palestra"));
 		personaleA.setTelefono(rs.getLong("telefono"));
 
 
@@ -60,7 +61,7 @@ public class Personale_amministrativoDAO {
 	}
 
 	public boolean salva(Personale_ammistrativo personaleA) {
-		String query = "INSERT INTO Personale_ammistrativo VALUES ( ?, ?, ?, ?)";
+		String query = "INSERT INTO Personale_ammistrativo VALUES ( ?, ?, ?, ?, ?)";
 		boolean esito = false;
 
 		PreparedStatement ps;
@@ -71,7 +72,8 @@ public class Personale_amministrativoDAO {
 			ps.setInt(1, personaleA.getMatricola());
 			ps.setString(2, personaleA.getNome());
 			ps.setString(3, personaleA.getCognome());
-			ps.setLong(4, personaleA.getTelefono());
+			ps.setInt(4, personaleA.getPalestra());
+			ps.setLong(5, personaleA.getTelefono());
 
 
 			int tmp = ps.executeUpdate();
@@ -155,6 +157,28 @@ public class Personale_amministrativoDAO {
 		DBManager.closeConnection();
 		return res;
 	}
+	//69. Data una palestra restituire tutti i numeri di telefono dei dipendenti con nome e cognome 
+		public Vector<String> getTelefonoPA(Palestra p) {
+			String query = "SELECT telefono, nome, cognome FROM Personale_amministrativo palestra=?";
 
+
+			Vector<String> res = new Vector<String>();
+			PreparedStatement ps;
+			conn = DBManager.startConnection();
+			try {
+				ps = conn.prepareStatement(query);
+				ResultSet rs = ps.executeQuery();
+				ps.setInt(1, p.getId());
+				while (rs.next()) {
+					//abbiamo usato i " " per effettuare una conversione "forzata", siccome java non converte automaticamente il tipo "long" in "string"
+					String s = rs.getLong("telefono")+ "  " + rs.getString("nome")+ "  " + rs.getString("nome");
+					res.add(s);
+				}
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+			DBManager.closeConnection();
+			return res;
+		}
 
 }

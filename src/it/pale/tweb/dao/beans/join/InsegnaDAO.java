@@ -10,7 +10,7 @@ import it.pale.tweb.dao.utils.DBManager;
 
 public class InsegnaDAO {
 	private static Connection conn = null;
-
+//Assegna un istruttore corso a un corso
 	public boolean salva(Corso c, Istruttore_corso ic) {
 		String query = "INSERT INTO frequenta VALUES ( ?, ?)";
 		boolean esito = false;
