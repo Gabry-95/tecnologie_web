@@ -135,5 +135,26 @@ public class PalestraDAO {
 		DBManager.closeConnection();
 		return esito;
 	}
+	
+	// Data Una palstra restituirne numero telefono
+	public long getTelefono(Palestra palestra) {
+		String query = "SELECT telefono FROM Palestra WHERE id=?";
+
+		long res = 0;
+		PreparedStatement ps;
+		conn = DBManager.startConnection();
+		try {
+			ps = conn.prepareStatement(query);
+			ps.setInt(1, palestra.getId());
+			ResultSet rs = ps.executeQuery();
+			if (rs.next()) {
+				res = palestra.getTelefono();
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		DBManager.closeConnection();
+		return res;
+	}
 
 }
