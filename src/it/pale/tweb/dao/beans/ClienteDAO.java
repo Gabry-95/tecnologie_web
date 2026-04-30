@@ -173,7 +173,7 @@ public class ClienteDAO {
 			ps = conn.prepareStatement(query);
 			ResultSet rs = ps.executeQuery();
 			ps.setInt(1, p.getId());
-			ps.setInt(1, c.getId());
+			ps.setInt(2, c.getId());
 			while (rs.next()) {
 				Cliente cliente = recordToCliente(rs);
 				res.add(cliente);
@@ -182,6 +182,58 @@ public class ClienteDAO {
 			e.printStackTrace();
 		}
 
+		return res;
+	}
+	
+	//24 Dato un corso restituire la lista di nome cognome e numero di telefono dei clienti che lo seguono 
+	public Vector<Cliente> IscrittiCorso(Corso c){
+		
+		String query="SELECT DISTINCT cliente.nome, cliente.cognome, cliente.telefono FROM cliente"
+				+ "JOIN abbonamento ON abbonamento.cliente = cliente.Matricola"
+				+ "JOIN frequenta ON frequenta.Abbonamento = abbonamento.Fattura"
+				+ "JOIN corso ON corso.ID = frequenta.Corso"
+				+ "WHERE corso.ID=?";
+		
+		Vector<Cliente> res= new Vector<Cliente>();
+		PreparedStatement ps;
+		conn = DBManager.startConnection();
+		try {
+			ps = conn.prepareStatement(query);
+			ResultSet rs = ps.executeQuery();
+			ps.setInt(1, c.getId());
+			while (rs.next()) {
+				Cliente cliente = recordToCliente(rs);
+				res.add(cliente);
+			}
+		}catch(SQLException e) {
+			e.printStackTrace();
+		}
+		
+		return res;
+	}
+	
+	//43 Elenca i numeri di telefono dei clienti che hanno effettuato almeno un accesso alla palestra 
+	public Vector<Cliente> getTelefonoClienti(Palestra p) {
+		String query="SELECT DISTINCT telefono FROM cliente"
+				+ "JOIN abbonamento ON abbonamento.Cliente = cliente.Matricola"
+				+ "JOIN da_accesso ON da_accesso.Abbonamento = abbonamento.fattura"
+				+ "WHERE da_accesso.Palestra=?";
+		
+		Vector<Cliente> res= new Vector<Cliente>();
+		
+		PreparedStatement ps;
+		conn = DBManager.startConnection();
+		try {
+			ps = conn.prepareStatement(query);
+			ResultSet rs = ps.executeQuery();
+			ps.setInt(1, p.getId());
+			while (rs.next()) {
+				Cliente cliente = recordToCliente(rs);
+				res.add(cliente);
+			}
+		}catch(SQLException e) {
+			e.printStackTrace();
+		}
 		return res;
 	}
 

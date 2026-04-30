@@ -175,7 +175,7 @@ public class AbbonamentoDAO {
 	
 	//dato una matricola elenca tipo, data e limite di ingressi
 	public Abbonamento InfoAbbonamento(Cliente c) {
-		String query = "SELECT * FROM Abbonamento"
+		String query = "SELECT tipo, dataScadenza, limiteIngressi FROM Abbonamento"
 				+ "WHERE cliente=?"
 				+ "ORDER BY dataScadenza DESC"
 				+ "LIMIT 1";
