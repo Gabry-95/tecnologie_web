@@ -157,12 +157,13 @@ public class Personale_amministrativoDAO {
 		DBManager.closeConnection();
 		return res;
 	}
+	
 	//69. Data una palestra restituire tutti i numeri di telefono dei dipendenti con nome e cognome 
-		public Vector<String> getTelefonoPA(Palestra p) {
-			String query = "SELECT telefono, nome, cognome FROM Personale_amministrativo palestra=?";
+		public Vector<Personale_ammistrativo> getTelefonoPA(Palestra p) {
+			String query = "SELECT telefono, nome, cognome FROM Personale_amministrativo WHERE palestra=?";
 
 
-			Vector<String> res = new Vector<String>();
+			Vector<Personale_ammistrativo>res = new Vector<Personale_ammistrativo>();
 			PreparedStatement ps;
 			conn = DBManager.startConnection();
 			try {
@@ -170,9 +171,8 @@ public class Personale_amministrativoDAO {
 				ResultSet rs = ps.executeQuery();
 				ps.setInt(1, p.getId());
 				while (rs.next()) {
-					//abbiamo usato i " " per effettuare una conversione "forzata", siccome java non converte automaticamente il tipo "long" in "string"
-					String s = rs.getLong("telefono")+ "  " + rs.getString("nome")+ "  " + rs.getString("nome");
-					res.add(s);
+					Personale_ammistrativo pa= recordToPersonaleA(rs);
+					res.add(pa);
 				}
 			} catch (SQLException e) {
 				e.printStackTrace();
