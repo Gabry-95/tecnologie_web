@@ -101,6 +101,39 @@ public class Da_accessoDAO {
 		return esito;
 	}
 	
-	}
+	//Aggiorna il numero di ingressi tenendo conto di RV3 e contestualmeente
+		public boolean inserisciIngresso(Abbonamento a, Palestra p) {
+			
+			String query = "UPDATE Abbonamento SET ingressi=? WHERE fattura=?";
+			boolean esito = false;
+			boolean result= false;
+			Date d=new Date();
+
+			PreparedStatement ps;
+			conn = DBManager.startConnection();
+			try {
+				
+				ps = conn.prepareStatement(query);
+				//iagg ingressi aggiornati cioè qulli gia fatti + quello da fare 
+				Integer iagg=a.getIngressi()+1;
+				
+				//se non ho limiti di ingresso oppure li ho ma non li ho ancora superati
+				if(a.getLimiteIngressi()==null || iagg<=a.getLimiteIngressi()) {	
+					ps.setInt(1, a.getIngressi()+1);
+					ps.setInt(2, a.getFattura());
+					int tmp = ps.executeUpdate();
+					//Aggiorno contestualmente da_accesso attraverso metodo salva
+					result=salva(p, a, d);
+					if (tmp == 1 && result) {
+						esito=true;
+					}
+				}
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+			DBManager.closeConnection();
+			return esito;
+		}
+}
 
 

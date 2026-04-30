@@ -198,51 +198,50 @@ public class AbbonamentoDAO {
 	}
 	
 	//Azzera il numero di ingressi settimanali mantenendo inalterati tutti gli altri valori 
-	public boolean IngressiSettimanali (Abbonamento abbonamento) {
-		String query=//UPDATE Abbonamento SET limiteIngressi=0 WHERE Fattura=?;
-				"SELECT * FROM Abbonamento"
-				+ "UPDATE Abbonamento SET Ingressi = 0;";
-		boolean esito=false;
-
-		PreparedStatement ps;
-		conn=DBManager.startConnection();
-		try {
-			ps=conn.prepareStatement(query);
-
-			//ps.setInt(1, abbonamento.getFattura());
-			//data ????
-			int tmp = ps.executeUpdate();
-			if(tmp==1)
-				esito=true;
-		}
-		catch(Exception e) {
-			e.printStackTrace();
-		}
-		DBManager.closeConnection();
-		return esito;
-	}
+//	public boolean IngressiSettimanali (Abbonamento abbonamento) {
+//		String query=//UPDATE Abbonamento SET limiteIngressi=0 WHERE Fattura=?;
+//				"SELECT * FROM Abbonamento"
+//				+ "UPDATE Abbonamento SET Ingressi = 0;";
+//		boolean esito=false;
+//
+//		PreparedStatement ps;
+//		conn=DBManager.startConnection();
+//		try {
+//			ps=conn.prepareStatement(query);
+//
+//			//ps.setInt(1, abbonamento.getFattura());
+//			//data ????
+//			int tmp = ps.executeUpdate();
+//			if(tmp==1)
+//				esito=true;
+//		}
+//		catch(Exception e) {
+//			e.printStackTrace();
+//		}
+//		DBManager.closeConnection();
+//		return esito;
+//	}
 	
 	//Elimina gli abbonamenti scaduti più di due anni fa
-	public boolean AbbonamentiScaduti (Abbonamento abbonamento) {
-		String query="DELETE FROM Abbonamento WHERE  dataScadenza < DATE_SUB(NOW(), INTERVAL 2 YEAR)"; //????
-		boolean esito = false;
-
-		PreparedStatement ps;
-		conn = DBManager.startConnection();
-		try {
-			ps = conn.prepareStatement(query);
-			//ps.setDate(1, new java.sql.Date(abbonamento.getDataScadenza().getTime()));
-
-			int tmp = ps.executeUpdate();
-			if (tmp == 1)
-				esito = true;
-
-		} catch (SQLException e) {
-			esito = false;
-			e.printStackTrace();
-		}
-		DBManager.closeConnection();
-		return esito;
-	}
-
+//	public boolean AbbonamentiScaduti (Abbonamento abbonamento) {
+//		String query="DELETE FROM Abbonamento WHERE  dataScadenza < DATE_SUB(NOW(), INTERVAL 2 YEAR)"; //????
+//		boolean esito = false;
+//
+//		PreparedStatement ps;
+//		conn = DBManager.startConnection();
+//		try {
+//			ps = conn.prepareStatement(query);
+//			//ps.setDate(1, new java.sql.Date(abbonamento.getDataScadenza().getTime()));
+//
+//			int tmp = ps.executeUpdate();
+//			if (tmp == 1)
+//				esito = true;
+//
+//		} catch (SQLException e) {
+//			esito = false;
+//			e.printStackTrace();
+//		}
+//		DBManager.closeConnection();
+//		return esito;
+//	}
 }

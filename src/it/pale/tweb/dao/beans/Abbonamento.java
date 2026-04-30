@@ -21,19 +21,18 @@ public class Abbonamento {
 		this.cliente = 0;
 	}
 
-	public Abbonamento(int fattura, String tipo, Date dataScadenza, int ingressi, int costo,
+	public Abbonamento(int fattura, String tipo, Date dataScadenza, int costo,
 			int cliente) {
 		this.fattura = fattura;
 		this.tipo = tipo;
 		this.dataScadenza = dataScadenza;
-		if(this.tipo.equals("studente")) {
+		if(this.tipo.equals("standard")) {
 			this.limiteIngressi = 3;
 		}
 		else {
-			//CONVENZIONE, SE IL PIANO DI ABBONAMENTO NON PREVEDE LIMITI DI INGRESSI VIENE SETTATO A ZERO
 			this.limiteIngressi = null;
 		}
-		this.ingressi = ingressi;
+		this.ingressi = 0;
 		this.costo = costo;
 		this.cliente = cliente;
 	}
