@@ -2,13 +2,10 @@ package it.pale.tweb.dao.beans.join;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
-import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.Vector;
 
 import it.pale.tweb.dao.beans.Abbonamento;
 import it.pale.tweb.dao.beans.Corso;
-import it.pale.tweb.dao.beans.Cliente;
 import it.pale.tweb.dao.utils.DBManager;
 
 
