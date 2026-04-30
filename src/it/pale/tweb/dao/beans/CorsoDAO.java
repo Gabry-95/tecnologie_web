@@ -155,5 +155,7 @@ public class CorsoDAO {
 		DBManager.closeConnection();
 		return res;
 	}
+	//Elenca gli iscritti ad un corso
+	
 
 }

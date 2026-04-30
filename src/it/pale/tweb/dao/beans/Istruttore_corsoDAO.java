@@ -139,10 +139,10 @@ public class Istruttore_corsoDAO {
 	}
 	
 	//69 Data una palestra restituire tutti i numeri di telefono dei dipendenti con nome e cognome
-	public Vector<String> getTelefonoIC(Palestra p) {
+	public Vector<Istruttore_corso> getTelefonoIC(Palestra p) {
 		String query = "SELECT nome, cognome, telefono FROM Istruttore_corso WHERE palestra=?";
 
-		Vector<String> res = new Vector<String>();
+		Vector<Istruttore_corso> res = new Vector<Istruttore_corso>();
 		PreparedStatement ps;
 		conn = DBManager.startConnection();
 		try {
@@ -150,8 +150,8 @@ public class Istruttore_corsoDAO {
 			ResultSet rs = ps.executeQuery();
 			ps.setInt(1, p.getId());
 			while (rs.next()) {
-				String s = rs.getString("nome")+" "+rs.getString("cognome")+" "+rs.getLong("telefono");
-				res.add(s);
+				Istruttore_corso i = recordToIstruttoreC(rs);
+				res.add(i);
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();

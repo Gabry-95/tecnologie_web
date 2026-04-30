@@ -131,7 +131,7 @@ public class ClienteDAO {
 		return esito;
 	}
 
-	//Elenca clienti seguiti dallo stesso personal trainer
+	//33. Elenca clienti seguiti dallo stesso personal trainer
 	public Vector<Cliente> elencaClienti(Personal_trainer pt) {
 		String query ="SELECT cliente.Nome, cliente.cognome FROM personal_trainer"
 				+ "JOIN segue ON segue.PersonalTrainer = personal_trainer.Matricola"
