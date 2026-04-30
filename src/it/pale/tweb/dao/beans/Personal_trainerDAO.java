@@ -158,12 +158,13 @@ public class Personal_trainerDAO {
 		DBManager.closeConnection();
 		return res;
 	}
+	
 	//69. Data una palestra restituire tutti i numeri di telefono dei dipendenti con nome e cognome 
-	public Vector<String> getTelefonoPT(Palestra p) {
-		String query = "SELECT telefono, nome, cognome FROM Personal_Trainer palestra=?";
+	public Vector<Personal_trainer> getTelefonoPT(Palestra p) {
+		String query = "SELECT telefono, nome, cognome FROM Personal_Trainer WHERE palestra=?";
 
 
-		Vector<String> res = new Vector<String>();
+		Vector<Personal_trainer> res = new Vector<Personal_trainer>();
 		PreparedStatement ps;
 		conn = DBManager.startConnection();
 		try {
@@ -171,9 +172,8 @@ public class Personal_trainerDAO {
 			ResultSet rs = ps.executeQuery();
 			ps.setInt(1, p.getId());
 			while (rs.next()) {
-				//abbiamo usato i " " per effettuare una conversione "forzata", siccome java non converte automaticamente il tipo "long" in "string"
-				String s = rs.getLong("telefono")+ "  " + rs.getString("nome")+ "  " + rs.getString("nome");
-				res.add(s);
+				Personal_trainer pt= recordToPersonalT(rs);
+				res.add(pt);
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -181,36 +181,4 @@ public class Personal_trainerDAO {
 		DBManager.closeConnection();
 		return res;
 	}
-	//33. Elenca i clienti con abbonamento Gold seguiti dallo stesso personal trainer
-	public Vector<String> getGoldPT(Personal_trainer pt) {
-		String query ="SELECT cliente.Nome, cliente.cognome FROM personal_trainer"
-	        + "JOIN segue ON segue.PersonalTrainer = personal_trainer.Matricola"
-	        + "JOIN abbonamento ON abbonamento.Fattura = segue.Abbonamento"
-	        + "JOIN cliente ON cliente.Matricola = abbonamento.Cliente"
-	        + "WHERE personal_trainer.Matricola=?";
-
-		Vector<String> res = new Vector<String>();
-		PreparedStatement ps;
-		conn = DBManager.startConnection();
-
-		try {
-
-			ps = conn.prepareStatement(query);
-			ResultSet rs = ps.executeQuery();
-			ps.setInt(1, pt.getMatricola());
-
-			while (rs.next()) {
-				String s = rs.getString("nome")+" "+rs.getString("cognome");
-				res.add(s);
-			}
-
-		} catch (SQLException e) {
-			e.printStackTrace();
-
-		}
-		DBManager.closeConnection();
-		return res;
-
-	}
-
 }
