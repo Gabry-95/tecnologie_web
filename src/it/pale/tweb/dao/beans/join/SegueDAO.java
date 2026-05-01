@@ -18,14 +18,17 @@ public class SegueDAO {
 		PreparedStatement ps;
 		conn = DBManager.startConnection();
 		try {
-			ps = conn.prepareStatement(query);
+			
+			if(a.getTipo().equals("Gold")) {
+				ps = conn.prepareStatement(query);
 
-			ps.setInt(1, a.getFattura());
-			ps.setInt(2, pt.getMatricola());
+				ps.setInt(1, a.getFattura());
+				ps.setInt(2, pt.getMatricola());
 
-			int tmp = ps.executeUpdate();
-			if (tmp == 1)
-				esito = true;
+				int tmp = ps.executeUpdate();
+				if (tmp == 1)
+					esito = true;
+			}
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
