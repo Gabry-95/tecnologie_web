@@ -212,29 +212,5 @@ public class ClienteDAO {
 		return res;
 	}
 	
-	//43 Elenca i numeri di telefono dei clienti che hanno effettuato almeno un accesso alla palestra 
-	public Vector<Cliente> getTelefonoClienti(Palestra p) {
-		String query="SELECT DISTINCT telefono FROM cliente"
-				+ "JOIN abbonamento ON abbonamento.Cliente = cliente.Matricola"
-				+ "JOIN da_accesso ON da_accesso.Abbonamento = abbonamento.fattura"
-				+ "WHERE da_accesso.Palestra=?";
-		
-		Vector<Cliente> res= new Vector<Cliente>();
-		
-		PreparedStatement ps;
-		conn = DBManager.startConnection();
-		try {
-			ps = conn.prepareStatement(query);
-			ResultSet rs = ps.executeQuery();
-			ps.setInt(1, p.getId());
-			while (rs.next()) {
-				Cliente cliente = recordToCliente(rs);
-				res.add(cliente);
-			}
-		}catch(SQLException e) {
-			e.printStackTrace();
-		}
-		return res;
-	}
-
+	
 }

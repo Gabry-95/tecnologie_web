@@ -7,7 +7,6 @@ public class Abbonamento {
 	private String tipo;
 	private Date dataScadenza;
 	private Integer limiteIngressi;
-	private int ingressi;
 	private int costo;
 	private int cliente;
 	
@@ -16,7 +15,6 @@ public class Abbonamento {
 		this.tipo = null;
 		this.dataScadenza = null;
 		this.limiteIngressi = null;
-		this.ingressi = 0;
 		this.costo = 0;
 		this.cliente = 0;
 	}
@@ -32,7 +30,6 @@ public class Abbonamento {
 		else {
 			this.limiteIngressi = null;
 		}
-		this.ingressi = 0;
 		this.costo = costo;
 		this.cliente = cliente;
 	}
@@ -69,14 +66,6 @@ public class Abbonamento {
 		this.limiteIngressi = limiteIngressi;
 	}
 
-	public int getIngressi() {
-		return ingressi;
-	}
-	
-	public void setIngressi(int ingressi) {
-		this.ingressi = ingressi;
-	}
-	
 	public int getCosto() {
 		return costo;
 	}
