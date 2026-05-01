@@ -181,5 +181,14 @@ public class CorsoDAO {
 		DBManager.closeConnection();
 		return res;
 	}
-
+	
+	public int costoCorsiAbbonamento(Vector<Corso> lista) {
+		
+		int totale=0;
+		
+		String query="SELECT SUM(corso.costo) - MIN(corso.costo) as \"totale\" FROM corso"
+				+ "WHERE corso.id IN ";
+		
+		return totale;
+	}
 }

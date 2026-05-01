@@ -61,7 +61,7 @@ public class AbbonamentoDAO {
 	}
 
 	public boolean salva(Abbonamento abbonamento) {
-		String query = "INSERT INTO Abbonamento VALUES ( ?, ?, ?, ?)";
+		String query = "INSERT INTO Abbonamento VALUES ( ?, ?, ?, ?, ?, ?)";
 		boolean esito = false;
 
 		PreparedStatement ps;
