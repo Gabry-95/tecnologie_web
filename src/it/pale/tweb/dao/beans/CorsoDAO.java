@@ -133,8 +133,8 @@ public class CorsoDAO {
 		DBManager.closeConnection();
 		return esito;
 	}
-// 68. Data una palestra, restituire l’elenco dei corsi 
 	
+	// 68. Data una palestra, restituire l’elenco dei corsi 
 	public Vector<Corso> getCorso(Palestra palestra) {
 		String query = "SELECT id, nome FROM Corso WHERE Palestra=? order by id";
 
@@ -155,7 +155,31 @@ public class CorsoDAO {
 		DBManager.closeConnection();
 		return res;
 	}
-	//Elenca gli iscritti ad un corso
 	
+	//59 Dato un corso restituire il numero di iscritti
+	public int numIscritti(Corso c) {
+		
+		String query="SELECT count(DISTINCT Cliente) as 'iscritti' FROM frequenta"
+				+ "JOIN corso on frequenta.Corso=corso.ID"
+				+ "JOIN abbonamento ON abbonamento.Fattura= frequenta.Abbonamento"
+				+ "WHERE corso.id=?";
+		
+		int res=0;
+		PreparedStatement ps;
+		conn = DBManager.startConnection();
+		try {
+			ps = conn.prepareStatement(query);
+			ps.setInt(1, c.getId());
+			ResultSet rs = ps.executeQuery();
+			if(rs.next()) {
+				res= rs.getInt("iscritti");
+			}
+			
+		}catch(SQLException e) {
+			e.printStackTrace();
+		}
+		DBManager.closeConnection();
+		return res;
+	}
 
 }
