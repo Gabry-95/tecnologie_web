@@ -19,14 +19,17 @@ public class FrequentaDAO {
 		PreparedStatement ps;
 		conn = DBManager.startConnection();
 		try {
-			ps = conn.prepareStatement(query);
 			
-			ps.setInt(1, a.getFattura());
-			ps.setInt(2, c.getId());
-			
-			int tmp = ps.executeUpdate();
-			if (tmp == 1)
-				esito = true;
+			if(a.getLimiteIngressi() == null) {
+				ps = conn.prepareStatement(query);
+				
+				ps.setInt(1, a.getFattura());
+				ps.setInt(2, c.getId());
+				
+				int tmp = ps.executeUpdate();
+				if (tmp == 1)
+					esito = true;
+			}
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
