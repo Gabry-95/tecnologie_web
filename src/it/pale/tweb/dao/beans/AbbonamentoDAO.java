@@ -37,6 +37,8 @@ public class AbbonamentoDAO {
 		abbonamento.setTipo(rs.getString("tipo"));
 		abbonamento.setDataScadenza(rs.getDate("dataScadenza"));
 		abbonamento.setLimiteIngressi(rs.getInt("limiteIngressi"));
+		abbonamento.setCosto(rs.getInt("costo"));
+		abbonamento.setCliente(rs.getInt("cliente"));
 		return abbonamento;
 	}
 
@@ -71,7 +73,7 @@ public class AbbonamentoDAO {
 
 			ps.setInt(1, abbonamento.getFattura());
 			ps.setString(2, abbonamento.getTipo());
-
+			
 			//converto da util.Date a sql.Date 
 			java.sql.Date data=new java.sql.Date(abbonamento.getDataScadenza().getTime());
 			ps.setDate(3, data);

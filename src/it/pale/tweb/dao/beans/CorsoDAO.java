@@ -185,10 +185,32 @@ public class CorsoDAO {
 	public int costoCorsiAbbonamento(Vector<Corso> lista) {
 		
 		int totale=0;
+		String id= new String();
 		
 		String query="SELECT SUM(corso.costo) - MIN(corso.costo) as \"totale\" FROM corso"
-				+ "WHERE corso.id IN ";
+				+ "WHERE corso.id IN ?";
 		
+		PreparedStatement ps;
+		conn = DBManager.startConnection();
+		try {
+			ps = conn.prepareStatement(query);
+			
+			//estrazione id in formato stringa
+			id+="(";
+			for(Corso c: lista) {
+				id+=Integer.toString(c.getId())+", ";
+			}
+			id+=")";
+	
+			ps.setString(1, id);
+			ResultSet rs = ps.executeQuery();
+			if(rs.next()) {
+				totale= rs.getInt("totale");
+			}
+		}catch(SQLException e) {
+			e.printStackTrace();
+		}
+		DBManager.closeConnection();		
 		return totale;
 	}
 }
