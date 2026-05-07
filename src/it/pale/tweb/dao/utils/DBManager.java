@@ -8,7 +8,7 @@ public class DBManager {
 	private static Connection conn = null;
 
 	private static final String DbDriver = "com.mysql.cj.jdbc.Driver";
-	private static final String DbURL = "jdbc:mysql://localhost:3306/txw?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=UTC";
+	private static final String DbURL = "jdbc:mysql://localhost:3306/palestra_popolato?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=UTC";
 	private static final String username = "root";
 	private static final String password = "root";
 
