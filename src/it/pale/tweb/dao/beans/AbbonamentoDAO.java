@@ -4,6 +4,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.Date;
 import java.util.Vector;
 
 import it.pale.tweb.dao.utils.DBManager;
@@ -119,7 +120,7 @@ public class AbbonamentoDAO {
 	}
 
 	public boolean modifica(Abbonamento abbonamento) {
-		String query = "UPDATE Abbonamento SET tipo=?, dataScadenza=?, limiteIngressi=?, ingressi=?, costo=?, cliente=? WHERE fattura=?";
+		String query = "UPDATE Abbonamento SET tipo=?, dataScadenza=?, limiteIngressi=?, costo=?, cliente=? WHERE fattura=?";
 		boolean esito = false;
 
 		PreparedStatement ps;
@@ -130,14 +131,14 @@ public class AbbonamentoDAO {
 			ps.setString(1, abbonamento.getTipo());
 			//converto da util.Date a sql.Date 
 			ps.setDate(2, new java.sql.Date(abbonamento.getDataScadenza().getTime()));
-			if (abbonamento.getTipo() != null)
+			if (abbonamento.getTipo().equals("standard"))
 				ps.setInt(3, abbonamento.getLimiteIngressi());
 			else
 				ps.setNull(3, java.sql.Types.INTEGER);
-			ps.setInt(4, abbonamento.getLimiteIngressi());
-			ps.setInt(5, abbonamento.getCosto());
-			ps.setInt(6, abbonamento.getCliente());
-			ps.setInt(7, abbonamento.getFattura());
+			
+			ps.setInt(4, abbonamento.getCosto());
+			ps.setInt(5, abbonamento.getCliente());
+			ps.setInt(6, abbonamento.getFattura());
 
 			int tmp = ps.executeUpdate();
 			if (tmp == 1)
@@ -157,10 +158,18 @@ public class AbbonamentoDAO {
 		PreparedStatement ps;
 		conn = DBManager.startConnection();
 		try {
+			
 			ps = conn.prepareStatement(query);
+			Date oggi = new Date();
+			long mil= oggi.getTime();
+
+			mil += 30L*24*60*60*1000; //INTEGER OVERFLOW
+			
+			Date scadenza= new Date(mil);
+		
 
 			//converto da util.Date a sql.Date 
-			ps.setDate(1, new java.sql.Date(abbonamento.getDataScadenza().getTime()));
+			ps.setDate(1, new java.sql.Date(scadenza.getTime()));
 			ps.setInt(2, abbonamento.getFattura());
 
 			int tmp = ps.executeUpdate();
@@ -175,10 +184,10 @@ public class AbbonamentoDAO {
 	
 	//dato una matricola elenca tipo, data e limite di ingressi
 	public Abbonamento InfoAbbonamento(Cliente c) {
-		String query = "SELECT tipo, dataScadenza, limiteIngressi FROM Abbonamento"
-				+ "WHERE cliente=?"
-				+ "ORDER BY dataScadenza DESC"
-				+ "LIMIT 1";
+		String query = "SELECT tipo, dataScadenza, limiteIngressi FROM Abbonamento "
+				+ "WHERE cliente=? "
+				+ "ORDER BY dataScadenza DESC "
+				+ "LIMIT 1 ";
 		Abbonamento res = null;
 
 		PreparedStatement ps;
