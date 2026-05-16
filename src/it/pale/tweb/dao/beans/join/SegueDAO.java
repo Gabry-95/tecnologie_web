@@ -37,7 +37,7 @@ public class SegueDAO {
 	}
 
 	public boolean elimina(Abbonamento a, Personal_trainer pt) {
-		String query = "DELETE FROM segue WHERE abbonamento=?";
+		String query = "DELETE FROM segue WHERE abbonamento=? AND PersonalTrainer=?";
 		boolean esito = false;
 
 		PreparedStatement ps;
@@ -60,8 +60,8 @@ public class SegueDAO {
 	}
 	
 	public boolean modifica(Abbonamento oldA, Abbonamento newA, Personal_trainer newPT) {
-		String query = "UPDATE segue SET Abbonamento=?, Personal_trainer=?"+
-				"WHERE Abbonamento=?";
+		String query = "UPDATE segue SET Abbonamento=?, PersonalTrainer=? "+
+				"WHERE Abbonamento=? ";
 		boolean esito = false;
 
 		PreparedStatement ps;
@@ -70,8 +70,9 @@ public class SegueDAO {
 			ps = conn.prepareStatement(query);
 			
 			//nuovi
-			ps.setInt(1, newPT.getMatricola());
-			ps.setLong(2, newA.getFattura());
+			ps.setLong(1, newA.getFattura());
+			ps.setInt(2, newPT.getMatricola());
+			
 			
 			//vecchi
 			ps.setLong(3, oldA.getFattura());

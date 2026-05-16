@@ -12,7 +12,7 @@ public class InsegnaDAO {
 	private static Connection conn = null;
 //Assegna un istruttore corso a un corso
 	public boolean salva(Corso c, Istruttore_corso ic) {
-		String query = "INSERT INTO frequenta VALUES ( ?, ?)";
+		String query = "INSERT INTO insegna VALUES ( ?, ?)";
 		boolean esito = false;
 
 		PreparedStatement ps;
@@ -34,7 +34,7 @@ public class InsegnaDAO {
 	}
 
 	public boolean elimina(Corso c, Istruttore_corso ic) {
-		String query = "DELETE FROM frequenta WHERE Corso=? AND Istruttore_corso=?";
+		String query = "DELETE FROM insegna WHERE Corso=? AND Istruttorecorso=?";
 		boolean esito = false;
 
 		PreparedStatement ps;
@@ -57,8 +57,8 @@ public class InsegnaDAO {
 	}
 	
 	public boolean modifica(Corso oldC, Istruttore_corso oldIC, Corso newC, Istruttore_corso newIC) {
-		String query = "UPDATE frequenta SET Corso=?, Istruttore_corso=? "+
-				"WHERE Corso=? AND Istruttore_corso=?";
+		String query = "UPDATE insegna SET Corso=?, Istruttorecorso=? "+
+				"WHERE Corso=? AND Istruttorecorso=?";
 		boolean esito = false;
 
 		PreparedStatement ps;
@@ -71,8 +71,8 @@ public class InsegnaDAO {
 			ps.setLong(2, newIC.getMatricola());
 			
 			//vecchi
-			ps.setInt(4, oldC.getId());
-			ps.setLong(5, oldIC.getMatricola());
+			ps.setInt(3, oldC.getId());
+			ps.setLong(4, oldIC.getMatricola());
 
 			int tmp = ps.executeUpdate();
 			if (tmp == 1)

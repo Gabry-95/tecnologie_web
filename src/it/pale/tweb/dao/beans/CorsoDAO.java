@@ -133,10 +133,10 @@ public class CorsoDAO {
 		DBManager.closeConnection();
 		return esito;
 	}
-	
+
 	// 68. Data una palestra, restituire l’elenco dei corsi 
 	public Vector<Corso> getCorso(Palestra palestra) {
-		String query = "SELECT id, nome FROM Corso WHERE Palestra=? order by id";
+		String query = "SELECT * FROM Corso WHERE Palestra=? order by id";
 
 		Vector<Corso> res = new Vector<Corso>();
 		PreparedStatement ps;
@@ -155,15 +155,15 @@ public class CorsoDAO {
 		DBManager.closeConnection();
 		return res;
 	}
-	
+
 	//59 Dato un corso restituire il numero di iscritti
 	public int numIscritti(Corso c) {
-		
-		String query="SELECT count(DISTINCT Cliente) as 'iscritti' FROM frequenta"
-				+ "JOIN corso on frequenta.Corso=corso.ID"
-				+ "JOIN abbonamento ON abbonamento.Fattura= frequenta.Abbonamento"
-				+ "WHERE corso.id=?";
-		
+
+		String query="SELECT count(DISTINCT Cliente) as 'iscritti' FROM frequenta "
+				+ "JOIN corso on frequenta.Corso=corso.ID "
+				+ "JOIN abbonamento ON abbonamento.Fattura= frequenta.Abbonamento "
+				+ "WHERE corso.id=? ";
+
 		int res=0;
 		PreparedStatement ps;
 		conn = DBManager.startConnection();
@@ -174,43 +174,50 @@ public class CorsoDAO {
 			if(rs.next()) {
 				res= rs.getInt("iscritti");
 			}
-			
+
 		}catch(SQLException e) {
 			e.printStackTrace();
 		}
 		DBManager.closeConnection();
 		return res;
 	}
-	
+
 	public int costoCorsiAbbonamento(Vector<Corso> lista) {
-		
+		//metto tanti punti interrogativi quanti sono gli elementi della lista
 		int totale=0;
 		String id= new String();
 		
-		String query="SELECT SUM(corso.costo) - MIN(corso.costo) as \"totale\" FROM corso"
-				+ "WHERE corso.id IN ?";
+		for(int i=0; i<lista.size(); i++) {
+			id+="?";
+			if(i<lista.size()-1) {
+				id+=", ";
+			}
+		}
 		
+		String query="SELECT SUM(corso.costo) - MIN(corso.costo) as \"totale\" FROM corso "
+				+ "WHERE corso.id IN ("+id+")";
 		PreparedStatement ps;
 		conn = DBManager.startConnection();
+		
 		try {
 			ps = conn.prepareStatement(query);
-			
-			//estrazione id in formato stringa
-			id+="(";
-			for(Corso c: lista) {
-				id+=Integer.toString(c.getId())+", ";
+			//Associamo ad ogi punto interrogativo il relativo id
+
+			for(int i=0; i<lista.size(); i++) {
+				ps.setInt(i+1, lista.get(i).getId());
+
 			}
-			id+=")";
-	
-			ps.setString(1, id);
+			
 			ResultSet rs = ps.executeQuery();
 			if(rs.next()) {
 				totale= rs.getInt("totale");
 			}
+
 		}catch(SQLException e) {
 			e.printStackTrace();
 		}
-		DBManager.closeConnection();		
+		DBManager.closeConnection();
 		return totale;
+
 	}
 }
