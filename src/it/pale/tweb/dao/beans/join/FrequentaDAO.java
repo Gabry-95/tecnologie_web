@@ -75,8 +75,8 @@ public class FrequentaDAO {
 			ps.setLong(2, newA.getFattura());
 			
 			//vecchi
-			ps.setInt(4, oldC.getId());
-			ps.setLong(5, oldA.getFattura());
+			ps.setInt(3, oldC.getId());
+			ps.setLong(4, oldA.getFattura());
 
 			int tmp = ps.executeUpdate();
 			if (tmp == 1)
