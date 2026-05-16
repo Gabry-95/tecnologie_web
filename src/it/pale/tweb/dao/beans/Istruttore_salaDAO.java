@@ -138,17 +138,18 @@ public class Istruttore_salaDAO {
 	
 	//Elenca istruttori di sala di una palestra ordinandoli per cognome
 	public Vector<Istruttore_sala> elencoIS(Palestra p) {
-		String query = "SELECT cognome, nome FROM istruttore_sala"
-				+ "WHERE palestra = ?"
-				+ "ORDER BY cognome";
+		String query = "SELECT * FROM istruttore_sala "
+				+ " WHERE palestra = ? "
+				+ " ORDER BY cognome ";
 
 		Vector<Istruttore_sala> res = new Vector<Istruttore_sala>();
 		PreparedStatement ps;
 		conn = DBManager.startConnection();
 		try {
 			ps = conn.prepareStatement(query);
-			ResultSet rs = ps.executeQuery();
+			
 			ps.setInt(1, p.getId());
+			ResultSet rs = ps.executeQuery();
 			while (rs.next()) {
 				Istruttore_sala istruttoreS = recordToIstruttoreS(rs);
 				res.add(istruttoreS);
@@ -162,15 +163,16 @@ public class Istruttore_salaDAO {
 	
 	//69 Data una palestra restituire tutti i numeri di telefono dei dipendenti con nome e cognome
 	public Vector<Istruttore_sala> getTelefonoIS(Palestra p) {
-		String query = "SELECT nome, cognome, telefono FROM Istruttore_sala WHERE palestra=?";
+		String query = "SELECT * FROM Istruttore_sala WHERE palestra=?";
 
 		Vector<Istruttore_sala> res = new Vector<Istruttore_sala>();
 		PreparedStatement ps;
 		conn = DBManager.startConnection();
 		try {
 			ps = conn.prepareStatement(query);
-			ResultSet rs = ps.executeQuery();
+			
 			ps.setInt(1, p.getId());
+			ResultSet rs = ps.executeQuery();
 			while (rs.next()) {
 				Istruttore_sala i= recordToIstruttoreS(rs);
 				res.add(i);
