@@ -14,12 +14,12 @@ public class Test {
 		AbbonamentoDAO abbonamentoDAO= new AbbonamentoDAO();
 		Abbonamento abbonamento=new Abbonamento();
 		//Adesso gli assegno:
-		abbonamento.setFattura(100);
-		abbonamento.setTipo("standard");
-		abbonamento.setDataScadenza(new Date());
-		abbonamento.setLimiteIngressi(3);
-		abbonamento.setCosto(30);
-		abbonamento.setCliente(8);
+//		abbonamento.setFattura(100);
+//		abbonamento.setTipo("standard");
+//		abbonamento.setDataScadenza(new Date());
+//		abbonamento.setLimiteIngressi(3);
+//		abbonamento.setCosto(30);
+//		abbonamento.setCliente(8);
 
 		//METODO SALVA
 //		if (abbonamentoDAO.salva(abbonamento)) {
@@ -39,10 +39,10 @@ public class Test {
 //		abbonamento= abbonamentoDAO.get(abbonamento);
 //		System.out.println("Riletto " + abbonamento);
 //		//METODO GETALL
-//		Vector<Abbonamento> Abbonamentos= abbonamentoDAO.getAll();
-//		for (Abbonamento a:Abbonamentos) {
-//			System.out.println(a);
-//		}
+		Vector<Abbonamento> Abbonamentos= abbonamentoDAO.getAll();
+		for (Abbonamento a:Abbonamentos) {
+			System.out.println(a);
+		}
 //		abbonamentoDAO.elimina(abbonamento);
 //		abbonamento=abbonamentoDAO.get(abbonamento);
 //		System.out.println(abbonamento);
@@ -60,12 +60,7 @@ public class Test {
 		Abbonamento info= abbonamentoDAO.InfoAbbonamento(cliente);
 		System.out.println("Tipo " +info.getTipo() + "Data :" +info.getDataScadenza() + "Limite ingressi: "+ info.getLimiteIngressi());
 		
-		
-		
-		
 	}
-
-
 }
 
 

@@ -15,7 +15,6 @@ public class Palestra {
 		this.citta=null;
 	}
 
-
 	public Palestra(int id, long telefono, int cap, String via, String citta) {
 
 		this.id = id;
@@ -24,7 +23,6 @@ public class Palestra {
 		this.via = via;
 		this.citta = citta;
 	}
-
 
 	public int getId() {
 		return id;
@@ -42,36 +40,34 @@ public class Palestra {
 		this.telefono = telefono;
 	}
 
-
 	public int getCap() {
 		return cap;
 	}
+	
 	public void setCap(int cap) {
 		this.cap = cap;
 	}
+	
 	public String getVia() {
 		return via;
 	}
+	
 	public void setVia(String via) {
 		this.via = via;
 	}
+	
 	public String getCitta() {
 		return citta;
 	}
+	
 	public void setCitta(String citta) {
 		this.citta = citta;
 	}
-
 
 	@Override
 	public String toString() {
 		return "Palestra [id=" + id + ", telefono=" + telefono + ", cap=" + cap + ", via=" + via + ", citta=" + citta
 				+ "]";
 	}
-
-
-
-
-
 
 }

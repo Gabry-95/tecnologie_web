@@ -182,9 +182,12 @@ public class AbbonamentoDAO {
 		return esito;
 	}
 	
-	//dato una matricola elenca tipo, data e limite di ingressi
+	//dato una matricola di un cliente elenca fattura, tipo, data e limite di ingressi
 	public Abbonamento InfoAbbonamento(Cliente c) {
-		String query = "SELECT tipo, dataScadenza, limiteIngressi FROM Abbonamento "
+		//fattura, tipo, dataScadenza, limiteIngressi
+		
+		//APPROCCIO CONSERVATIVO
+		String query = "SELECT * FROM Abbonamento "
 				+ "WHERE cliente=? "
 				+ "ORDER BY dataScadenza DESC "
 				+ "LIMIT 1 ";

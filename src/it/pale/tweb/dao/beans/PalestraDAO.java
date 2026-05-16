@@ -117,14 +117,11 @@ public class PalestraDAO {
 		try {
 			ps = conn.prepareStatement(query);
 
-
 			ps.setLong(1, palestra.getTelefono());
 			ps.setInt(2, palestra.getCap());
 			ps.setString(3, palestra.getVia());
 			ps.setString(4, palestra.getCitta());
 			ps.setInt(5, palestra.getId());
-
-
 
 			int tmp = ps.executeUpdate();
 			if (tmp == 1)
@@ -137,10 +134,11 @@ public class PalestraDAO {
 	}
 	
 	// Data Una palstra restituirne numero telefono
-	public long getTelefono(Palestra palestra) {
+	public long telefono(Palestra palestra) {
 		String query = "SELECT telefono FROM Palestra WHERE id=?";
 
 		long res = 0;
+		
 		PreparedStatement ps;
 		conn = DBManager.startConnection();
 		try {
@@ -148,7 +146,7 @@ public class PalestraDAO {
 			ps.setInt(1, palestra.getId());
 			ResultSet rs = ps.executeQuery();
 			if (rs.next()) {
-				res = palestra.getTelefono();
+				res = rs.getLong(1);
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();

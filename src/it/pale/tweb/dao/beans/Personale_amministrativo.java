@@ -1,13 +1,13 @@
 package it.pale.tweb.dao.beans;
 
-public class Personale_ammistrativo {
+public class Personale_amministrativo {
 	private int matricola;
 	private String nome;
 	private String cognome;
 	private int palestra;
 	private long telefono;
 
-	public Personale_ammistrativo() {
+	public Personale_amministrativo() {
 		this.matricola=0;
 		this.nome=null;
 		this.cognome=null;
@@ -15,7 +15,7 @@ public class Personale_ammistrativo {
 		this.telefono=0;
 	}
 
-	public Personale_ammistrativo(int matricola, String nome, String cognome, int palestra, long telefono) {
+	public Personale_amministrativo(int matricola, String nome, String cognome, int palestra, long telefono) {
 
 		this.matricola = matricola;
 		this.nome = nome;
@@ -66,7 +66,7 @@ public class Personale_ammistrativo {
 
 	@Override
 	public String toString() {
-		return "Personale_ammistrativo [matricola=" + matricola + ", nome=" + nome + ", cognome=" + cognome
+		return "Personale_amministrativo [matricola=" + matricola + ", nome=" + nome + ", cognome=" + cognome
 				+ ", palestra=" + palestra + ", telefono=" + telefono + "]";
 	}
 

@@ -136,9 +136,10 @@ public class Personal_trainerDAO {
 	}
 
 	//Elenca personal trainer di una palestra ordinandoli per cognome
-	public Vector<Personal_trainer> elencoIS(Palestra p) {
-		String query = "SELECT cognome, nome FROM personal_trainer"
-				+ "WHERE palestra = ?"
+	public Vector<Personal_trainer> elencoPT(Palestra p) {
+		//cognome, nome
+		String query = "SELECT * FROM personal_trainer "
+				+ "WHERE palestra = ? "
 				+ "ORDER BY cognome";
 
 		Vector<Personal_trainer> res = new Vector<Personal_trainer>();
@@ -146,8 +147,8 @@ public class Personal_trainerDAO {
 		conn = DBManager.startConnection();
 		try {
 			ps = conn.prepareStatement(query);
-			ResultSet rs = ps.executeQuery();
 			ps.setInt(1, p.getId());
+			ResultSet rs = ps.executeQuery();
 			while (rs.next()) {
 				Personal_trainer personalT = recordToPersonalT(rs);
 				res.add(personalT);
@@ -161,6 +162,9 @@ public class Personal_trainerDAO {
 	
 	//69. Data una palestra restituire tutti i numeri di telefono dei dipendenti con nome e cognome 
 	public Vector<Personal_trainer> getTelefonoPT(Palestra p) {
+		
+		//VA LASCIATA? posso ricavarla dalla query precedente
+		
 		String query = "SELECT telefono, nome, cognome FROM Personal_Trainer WHERE palestra=?";
 
 
