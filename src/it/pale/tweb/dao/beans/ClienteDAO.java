@@ -133,10 +133,11 @@ public class ClienteDAO {
 
 	//33. Elenca clienti seguiti dallo stesso personal trainer
 	public Vector<Cliente> elencaClienti(Personal_trainer pt) {
-		String query ="SELECT cliente.Nome, cliente.cognome FROM personal_trainer"
-				+ "JOIN segue ON segue.PersonalTrainer = personal_trainer.Matricola"
-				+ "JOIN abbonamento ON abbonamento.Fattura = segue.Abbonamento"
-				+ "JOIN cliente ON cliente.Matricola = abbonamento.Cliente"
+		//cliente.Nome, cliente.cognome
+		String query ="SELECT cliente.matricola, cliente.Nome, cliente.cognome, cliente.telefono FROM personal_trainer "
+				+ "JOIN segue ON segue.PersonalTrainer = personal_trainer.Matricola "
+				+ "JOIN abbonamento ON abbonamento.Fattura = segue.Abbonamento "
+				+ "JOIN cliente ON cliente.Matricola = abbonamento.Cliente "
 				+ "WHERE personal_trainer.Matricola=?";
 
 		Vector<Cliente> res = new Vector<Cliente>();
@@ -144,8 +145,8 @@ public class ClienteDAO {
 		conn = DBManager.startConnection();
 		try {
 			ps = conn.prepareStatement(query);
-			ResultSet rs = ps.executeQuery();
 			ps.setInt(1, pt.getMatricola());
+			ResultSet rs = ps.executeQuery();
 			while (rs.next()) {
 				Cliente c = recordToCliente(rs);
 				res.add(c);
@@ -159,11 +160,12 @@ public class ClienteDAO {
 	
 	//24 Dato un corso restituisci una lista dei clienti che seguono il corso
 	public Vector<Cliente> getIscrittiCorso(Palestra p, Corso c){
-
-		String query="SELECT cliente.matricola, cliente.nome, cliente.cognome, cliente.telefono FROM Cliente"
-				+ "JOIN abbonamento ON cliente.Matricola = abbonamento.Cliente"
-				+ "JOIN frequenta ON frequenta.Abbonamento = abbonamento.Fattura"
-				+ "JOIN corso ON corso.ID = frequenta.Corso"
+		
+		//è necessario il controllo sulla palestra?
+		String query="SELECT cliente.matricola, cliente.nome, cliente.cognome, cliente.telefono FROM Cliente "
+				+ "JOIN abbonamento ON cliente.Matricola = abbonamento.Cliente "
+				+ "JOIN frequenta ON frequenta.Abbonamento = abbonamento.Fattura "
+				+ "JOIN corso ON corso.ID = frequenta.Corso "
 				+ "WHERE corso.Palestra = ? AND corso.id=?";
 
 		Vector<Cliente> res= new Vector<Cliente>();
@@ -171,9 +173,9 @@ public class ClienteDAO {
 		conn = DBManager.startConnection();
 		try {
 			ps = conn.prepareStatement(query);
-			ResultSet rs = ps.executeQuery();
 			ps.setInt(1, p.getId());
 			ps.setInt(2, c.getId());
+			ResultSet rs = ps.executeQuery();
 			while (rs.next()) {
 				Cliente cliente = recordToCliente(rs);
 				res.add(cliente);
@@ -188,10 +190,11 @@ public class ClienteDAO {
 	//24 Dato un corso restituire la lista di nome cognome e numero di telefono dei clienti che lo seguono 
 	public Vector<Cliente> IscrittiCorso(Corso c){
 		
-		String query="SELECT DISTINCT cliente.nome, cliente.cognome, cliente.telefono FROM cliente"
-				+ "JOIN abbonamento ON abbonamento.cliente = cliente.Matricola"
-				+ "JOIN frequenta ON frequenta.Abbonamento = abbonamento.Fattura"
-				+ "JOIN corso ON corso.ID = frequenta.Corso"
+		//cliente.nome, cliente.cognome, cliente.telefono
+		String query="SELECT DISTINCT cliente.matricola, cliente.nome, cliente.cognome, cliente.telefono FROM cliente "
+				+ "JOIN abbonamento ON abbonamento.cliente = cliente.Matricola "
+				+ "JOIN frequenta ON frequenta.Abbonamento = abbonamento.Fattura "
+				+ "JOIN corso ON corso.ID = frequenta.Corso "
 				+ "WHERE corso.ID=?";
 		
 		Vector<Cliente> res= new Vector<Cliente>();
@@ -199,8 +202,8 @@ public class ClienteDAO {
 		conn = DBManager.startConnection();
 		try {
 			ps = conn.prepareStatement(query);
-			ResultSet rs = ps.executeQuery();
 			ps.setInt(1, c.getId());
+			ResultSet rs = ps.executeQuery();
 			while (rs.next()) {
 				Cliente cliente = recordToCliente(rs);
 				res.add(cliente);

@@ -8,10 +8,10 @@ import it.pale.tweb.dao.utils.DBManager;
 public class Personale_amministrativoDAO {
 	private static Connection conn = null;
 
-	public Personale_ammistrativo get(Personale_ammistrativo personaleA) {
+	public Personale_amministrativo get(Personale_amministrativo personaleA) {
 		String query = "SELECT * FROM Personale_amministrativo WHERE matricola=?";
 
-		Personale_ammistrativo res = null;
+		Personale_amministrativo res = null;
 		PreparedStatement ps;
 		conn = DBManager.startConnection();
 		try {
@@ -28,8 +28,8 @@ public class Personale_amministrativoDAO {
 		return res;
 	}
 
-	private Personale_ammistrativo recordToPersonaleA(ResultSet rs) throws SQLException {
-		Personale_ammistrativo personaleA = new Personale_ammistrativo();
+	private Personale_amministrativo recordToPersonaleA(ResultSet rs) throws SQLException {
+		Personale_amministrativo personaleA = new Personale_amministrativo();
 		personaleA.setMatricola(rs.getInt("matricola"));
 		personaleA.setNome(rs.getString("nome"));
 		personaleA.setCognome(rs.getString("cognome"));
@@ -40,17 +40,17 @@ public class Personale_amministrativoDAO {
 		return personaleA;
 	}
 
-	public Vector<Personale_ammistrativo> getAll() {
+	public Vector<Personale_amministrativo> getAll() {
 		String query = "SELECT * FROM Personale_amministrativo order by matricola";
 
-		Vector<Personale_ammistrativo> res = new Vector<Personale_ammistrativo>();
+		Vector<Personale_amministrativo> res = new Vector<Personale_amministrativo>();
 		PreparedStatement ps;
 		conn = DBManager.startConnection();
 		try {
 			ps = conn.prepareStatement(query);
 			ResultSet rs = ps.executeQuery();
 			while (rs.next()) {
-				Personale_ammistrativo personaleA = recordToPersonaleA(rs);
+				Personale_amministrativo personaleA = recordToPersonaleA(rs);
 				res.add(personaleA);
 			}
 		} catch (SQLException e) {
@@ -60,8 +60,8 @@ public class Personale_amministrativoDAO {
 		return res;
 	}
 
-	public boolean salva(Personale_ammistrativo personaleA) {
-		String query = "INSERT INTO Personale_ammistrativo VALUES ( ?, ?, ?, ?, ?)";
+	public boolean salva(Personale_amministrativo personaleA) {
+		String query = "INSERT INTO Personale_amministrativo VALUES ( ?, ?, ?, ?, ?)";
 		boolean esito = false;
 
 		PreparedStatement ps;
@@ -86,7 +86,7 @@ public class Personale_amministrativoDAO {
 		return esito;
 	}
 
-	public boolean elimina(Personale_ammistrativo personaleA) {
+	public boolean elimina(Personale_amministrativo personaleA) {
 		String query = "DELETE FROM Personale_amministrativo WHERE matricola = ?";
 		boolean esito = false;
 
@@ -108,8 +108,8 @@ public class Personale_amministrativoDAO {
 		return esito;
 	}
 
-	public boolean modifica(Personale_ammistrativo personaleA) {
-		String query = "UPDATE Personale_ammistrativo SET nome=?, cognome=?, palestra=?, telefono=? WHERE matricola=?";
+	public boolean modifica(Personale_amministrativo personaleA) {
+		String query = "UPDATE Personale_amministrativo SET nome=?, cognome=?, palestra=?, telefono=? WHERE matricola=?";
 		boolean esito = false;
 
 		PreparedStatement ps;
@@ -135,20 +135,21 @@ public class Personale_amministrativoDAO {
 	}
 	
 	//Elenca personale amministrativo di una palestra ordinandoli per cognome
-	public Vector<Personale_ammistrativo> elencoIS(Palestra p) {
-		String query = "SELECT cognome, nome FROM personale_amministrativo"
-				+ "WHERE palestra = ?"
+	public Vector<Personale_amministrativo> elencoPA(Palestra p) {
+		//nome, cognome
+		String query = "SELECT * FROM personale_amministrativo "
+				+ "WHERE palestra = ? "
 				+ "ORDER BY cognome";
 
-		Vector<Personale_ammistrativo> res = new Vector<Personale_ammistrativo>();
+		Vector<Personale_amministrativo> res = new Vector<Personale_amministrativo>();
 		PreparedStatement ps;
 		conn = DBManager.startConnection();
 		try {
 			ps = conn.prepareStatement(query);
-			ResultSet rs = ps.executeQuery();
 			ps.setInt(1, p.getId());
+			ResultSet rs = ps.executeQuery();
 			while (rs.next()) {
-				Personale_ammistrativo personalA = recordToPersonaleA(rs);
+				Personale_amministrativo personalA = recordToPersonaleA(rs);
 				res.add(personalA);
 			}
 		} catch (SQLException e) {
@@ -159,19 +160,20 @@ public class Personale_amministrativoDAO {
 	}
 	
 	//69. Data una palestra restituire tutti i numeri di telefono dei dipendenti con nome e cognome 
-		public Vector<Personale_ammistrativo> getTelefonoPA(Palestra p) {
-			String query = "SELECT telefono, nome, cognome FROM Personale_amministrativo WHERE palestra=?";
+		public Vector<Personale_amministrativo> getTelefonoPA(Palestra p) {
+			//telefono, nome, cognome
+			String query = "SELECT * FROM Personale_amministrativo WHERE palestra=?";
 
 
-			Vector<Personale_ammistrativo>res = new Vector<Personale_ammistrativo>();
+			Vector<Personale_amministrativo>res = new Vector<Personale_amministrativo>();
 			PreparedStatement ps;
 			conn = DBManager.startConnection();
 			try {
 				ps = conn.prepareStatement(query);
-				ResultSet rs = ps.executeQuery();
 				ps.setInt(1, p.getId());
+				ResultSet rs = ps.executeQuery();
 				while (rs.next()) {
-					Personale_ammistrativo pa= recordToPersonaleA(rs);
+					Personale_amministrativo pa= recordToPersonaleA(rs);
 					res.add(pa);
 				}
 			} catch (SQLException e) {
